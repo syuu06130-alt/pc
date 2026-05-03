@@ -25,7 +25,6 @@
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
   html { scroll-behavior: smooth; }
 
   body {
@@ -64,16 +63,13 @@
   .container {
     position: relative;
     z-index: 1;
-    max-width: 900px;
+    max-width: 920px;
     margin: 0 auto;
     padding: 2.5rem 1.25rem 5rem;
   }
 
   /* ── HEADER ── */
-  .header {
-    text-align: center;
-    margin-bottom: 2.5rem;
-  }
+  .header { text-align: center; margin-bottom: 2.5rem; }
 
   .badge {
     display: inline-flex;
@@ -115,7 +111,6 @@
   }
 
   .main-title .hl { color: var(--accent); }
-
   .subtitle {
     font-size: 12px;
     color: var(--muted2);
@@ -165,6 +160,80 @@
     background: var(--border);
   }
 
+  /* ── ELAPSED SINCE ORDER ── */
+  .elapsed-hero {
+    background: linear-gradient(135deg, rgba(124,92,252,0.08), rgba(0,184,255,0.05));
+    border: 1px solid rgba(124,92,252,0.3);
+    border-radius: 20px;
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .elapsed-hero-icon {
+    font-size: 2.5rem;
+    flex-shrink: 0;
+  }
+
+  .elapsed-hero-body { flex: 1; min-width: 160px; }
+
+  .elapsed-hero-label {
+    font-size: 10px;
+    color: var(--muted2);
+    font-family: 'JetBrains Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 4px;
+  }
+
+  .elapsed-hero-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
+    color: #c4b0ff;
+    line-height: 1;
+    letter-spacing: 0.04em;
+  }
+
+  .elapsed-hero-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted2);
+    margin-top: 4px;
+  }
+
+  .elapsed-hero-right {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: flex-end;
+  }
+
+  .elapsed-mini {
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    border-radius: 8px;
+    padding: 5px 10px;
+    text-align: right;
+  }
+
+  .elapsed-mini-val {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--accent2);
+  }
+
+  .elapsed-mini-lbl {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
   /* ── COUNTDOWN ── */
   .countdown-card {
     background: var(--bg2);
@@ -189,6 +258,34 @@
     pointer-events: none;
   }
 
+  .cd-tabs {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .cd-tab {
+    padding: 5px 14px;
+    border-radius: 99px;
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    border: 1px solid var(--border2);
+    background: var(--bg3);
+    color: var(--muted2);
+    transition: all 0.2s;
+    user-select: none;
+  }
+
+  .cd-tab.active {
+    background: rgba(0,229,160,0.12);
+    border-color: rgba(0,229,160,0.4);
+    color: var(--accent);
+  }
+
   .cd-title {
     font-size: 11px;
     color: var(--muted2);
@@ -196,6 +293,7 @@
     text-transform: uppercase;
     letter-spacing: 0.1em;
     margin-bottom: 1.5rem;
+    transition: opacity 0.3s;
   }
 
   .countdown-grid {
@@ -212,6 +310,7 @@
     padding: 1.2rem 0.5rem 1rem;
     position: relative;
     overflow: hidden;
+    transition: border-color 0.3s;
   }
 
   .cd-unit::before {
@@ -231,6 +330,7 @@
     display: block;
     letter-spacing: 0.02em;
     text-shadow: 0 0 20px rgba(0,229,160,0.3);
+    transition: color 0.3s, text-shadow 0.3s;
   }
 
   .cd-lbl {
@@ -247,10 +347,55 @@
     font-size: 11px;
     color: var(--muted2);
     font-family: 'JetBrains Mono', monospace;
-    line-height: 1.7;
+    line-height: 1.8;
   }
 
   .cd-note span { color: var(--accent); }
+  .cd-note span.hl2 { color: var(--accent2); }
+  .cd-note span.hl3 { color: #ff9f43; }
+
+  /* ── LIVE SECONDS ── */
+  .seconds-ticker {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1rem 1.5rem;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .secs-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .secs-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.2rem;
+    line-height: 1;
+    letter-spacing: 0.04em;
+  }
+
+  .secs-lbl {
+    font-size: 9px;
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: 3px;
+  }
+
+  .secs-divider {
+    color: var(--muted);
+    font-size: 1.5rem;
+    font-family: 'Bebas Neue', sans-serif;
+    opacity: 0.3;
+  }
 
   /* ── PROGRESS ── */
   .progress-card {
@@ -297,7 +442,7 @@
     height: 100%;
     border-radius: 99px;
     background: linear-gradient(90deg, var(--accent3), var(--accent2), var(--accent));
-    transition: width 0.8s cubic-bezier(0.4,0,0.2,1);
+    transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
     position: relative;
   }
 
@@ -381,23 +526,33 @@
   .one-pct-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+    gap: 8px;
   }
 
   .one-pct-item {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     padding: 0.5rem 0.75rem;
     background: var(--bg3);
     border-radius: 9px;
     font-family: 'JetBrains Mono', monospace;
     font-size: 11px;
+    gap: 8px;
+    border: 1px solid transparent;
+    transition: border-color 0.3s;
   }
 
-  .one-pct-item .key { color: var(--muted); }
-  .one-pct-item .val { color: var(--text); font-weight: 700; }
+  .one-pct-item.current-pct {
+    border-color: rgba(0,229,160,0.4);
+    background: rgba(0,229,160,0.05);
+  }
+
+  .one-pct-item .key { color: var(--muted); flex-shrink: 0; }
+  .one-pct-item .val { color: var(--text); font-weight: 700; text-align: right; }
   .one-pct-item .val.future { color: var(--accent2); }
+  .one-pct-item .val.past { color: var(--muted2); text-decoration: line-through; }
+  .one-pct-item .val.now { color: var(--accent); }
 
   /* ── DETAILED STATS ── */
   .stats-3col {
@@ -606,9 +761,7 @@
     min-width: 500px;
   }
 
-  .fps-table thead tr {
-    border-bottom: 1px solid var(--border2);
-  }
+  .fps-table thead tr { border-bottom: 1px solid var(--border2); }
 
   .fps-table thead th {
     padding: 0.5rem 0.75rem;
@@ -647,11 +800,7 @@
     gap: 8px;
   }
 
-  .game-icon {
-    font-size: 14px;
-    width: 20px;
-    text-align: center;
-  }
+  .game-icon { font-size: 14px; width: 20px; text-align: center; }
 
   .fps-val {
     font-weight: 700;
@@ -879,8 +1028,6 @@
     gap: 8px;
   }
 
-  .spec-name-block {}
-
   .spec-title-lbl {
     font-size: 10px;
     color: var(--muted);
@@ -897,9 +1044,7 @@
     color: var(--accent);
   }
 
-  .spec-price-block {
-    text-align: right;
-  }
+  .spec-price-block { text-align: right; }
 
   .spec-price {
     font-family: 'Bebas Neue', sans-serif;
@@ -1078,6 +1223,9 @@
     .fps-summary { grid-template-columns: repeat(2, 1fr); }
     .prog-meta { grid-template-columns: 1fr; }
     .one-pct-grid { grid-template-columns: 1fr; }
+    .seconds-ticker { justify-content: center; }
+    .elapsed-hero { flex-direction: column; align-items: flex-start; }
+    .elapsed-hero-right { align-items: flex-start; flex-direction: row; flex-wrap: wrap; }
   }
 </style>
 </head>
@@ -1086,7 +1234,7 @@
 
   <!-- HEADER -->
   <div class="header">
-    <div class="badge"><span class="live-dot"></span>LIVE TRACKING ACTIVE</div>
+    <div class="badge"><span class="live-dot"></span>LIVE TRACKING ACTIVE · 1秒更新</div>
     <h1 class="main-title">PC<span class="hl">到着</span>まで</h1>
     <p class="subtitle">BANDAL GAMING — ORDER #P186336049671509345 — RYZEN 7 5700X / RX 7600</p>
   </div>
@@ -1094,16 +1242,72 @@
   <!-- CLOCK BAR -->
   <div class="clock-bar">
     <div class="live-indicator"><span class="live-dot"></span><span id="live-clock-text">—</span></div>
-    <div style="font-size:10px;color:var(--muted);">毎秒更新 · REFRESHED EVERY SECOND</div>
+    <div style="font-size:10px;color:var(--muted);">毎秒リアルタイム更新中</div>
   </div>
 
   <!-- ARRIVED -->
   <div class="arrived-banner" id="arrived-banner">🎉 PCが届いているはずです！おめでとう！🎉</div>
 
-  <!-- COUNTDOWN -->
-  <div class="sec-label">🕒 最短到着日（5月3日）カウントダウン</div>
+  <!-- ELAPSED HERO -->
+  <div class="sec-label">⏱️ 注文からの経過時間</div>
+  <div class="elapsed-hero">
+    <div class="elapsed-hero-icon">📦</div>
+    <div class="elapsed-hero-body">
+      <div class="elapsed-hero-label">注文日 2026/04/24 22:57:27 からの経過</div>
+      <div class="elapsed-hero-num" id="elapsed-hero-num">0日 00時間00分00秒</div>
+      <div class="elapsed-hero-sub" id="elapsed-hero-sub">—</div>
+    </div>
+    <div class="elapsed-hero-right">
+      <div class="elapsed-mini">
+        <div class="elapsed-mini-val" id="elapsed-hours-total">—</div>
+        <div class="elapsed-mini-lbl">総経過時間（h）</div>
+      </div>
+      <div class="elapsed-mini">
+        <div class="elapsed-mini-val" id="elapsed-mins-total">—</div>
+        <div class="elapsed-mini-lbl">総経過分数</div>
+      </div>
+      <div class="elapsed-mini">
+        <div class="elapsed-mini-val" id="elapsed-secs-total">—</div>
+        <div class="elapsed-mini-lbl">総経過秒数</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIVE SECONDS TICKER -->
+  <div class="seconds-ticker">
+    <div class="secs-block">
+      <div class="secs-num" id="sk-days" style="color:var(--accent3);">—</div>
+      <div class="secs-lbl">日</div>
+    </div>
+    <div class="secs-divider">:</div>
+    <div class="secs-block">
+      <div class="secs-num" id="sk-hours" style="color:var(--accent2);">—</div>
+      <div class="secs-lbl">時間</div>
+    </div>
+    <div class="secs-divider">:</div>
+    <div class="secs-block">
+      <div class="secs-num" id="sk-mins" style="color:var(--accent);">—</div>
+      <div class="secs-lbl">分</div>
+    </div>
+    <div class="secs-divider">:</div>
+    <div class="secs-block">
+      <div class="secs-num" id="sk-secs" style="color:#ff9f43;">—</div>
+      <div class="secs-lbl">秒</div>
+    </div>
+    <div style="font-size:10px;color:var(--muted);font-family:'JetBrains Mono',monospace;text-align:center;">
+      ← 最短到着（5/5）<br>までのカウントダウン
+    </div>
+  </div>
+
+  <!-- COUNTDOWN TABS -->
+  <div class="sec-label">🕒 到着カウントダウン</div>
   <div class="countdown-card">
-    <div class="cd-title">5月3日 00:00:00 まで</div>
+    <div class="cd-tabs">
+      <div class="cd-tab active" onclick="setTarget('min')" id="tab-min">最短 5/5</div>
+      <div class="cd-tab" onclick="setTarget('avg')" id="tab-avg">目安 5/8</div>
+      <div class="cd-tab" onclick="setTarget('max')" id="tab-max">最遅 5/12</div>
+    </div>
+    <div class="cd-title" id="cd-target-label">2026年5月5日 00:00:00 まで</div>
     <div class="countdown-grid">
       <div class="cd-unit"><span class="cd-num" id="cd-days">00</span><span class="cd-lbl">日</span></div>
       <div class="cd-unit"><span class="cd-num" id="cd-hours">00</span><span class="cd-lbl">時間</span></div>
@@ -1111,9 +1315,10 @@
       <div class="cd-unit"><span class="cd-num" id="cd-secs">00</span><span class="cd-lbl">秒</span></div>
     </div>
     <div class="cd-note">
-      到着予定期間: <span>5月3日〜5月10日</span>　最有力: <span>5月7日</span><br>
-      最短到着（5/3）まで: <span id="cd-detail-min">—</span><br>
-      目安到着（5/7）まで: <span id="cd-detail-avg">—</span>
+      到着予定期間: <span>5月5日〜5月12日</span>　最有力: <span>5月8日</span><br>
+      最短到着（5/5）まで: <span id="cd-detail-min">—</span><br>
+      目安到着（5/8）まで: <span id="cd-detail-avg">—</span><br>
+      最遅到着（5/12）まで: <span class="hl3" id="cd-detail-max">—</span>
     </div>
   </div>
 
@@ -1121,7 +1326,7 @@
   <div class="sec-label">📊 製作・配送進捗</div>
   <div class="progress-card">
     <div class="prog-header">
-      <span class="prog-label">注文日 4/24 → 目安到着 5/7</span>
+      <span class="prog-label">注文日 4/24 → 目安到着 5/8</span>
       <span class="prog-pct" id="prog-pct-text">0%</span>
     </div>
     <div class="prog-track">
@@ -1129,7 +1334,7 @@
     </div>
     <div class="prog-dates">
       <span>📦 注文: 2026/04/24 22:57</span>
-      <span>🏠 目安: 2026/05/07 12:00</span>
+      <span>🏠 目安: 2026/05/08 12:00</span>
     </div>
     <div class="prog-meta">
       <div class="prog-meta-item">
@@ -1137,7 +1342,7 @@
         <span class="prog-meta-lbl">次の1%まで</span>
       </div>
       <div class="prog-meta-item">
-        <span class="prog-meta-val" id="prog-1pct-duration">約3時間8分</span>
+        <span class="prog-meta-val" id="prog-1pct-duration">—</span>
         <span class="prog-meta-lbl">1%あたりの時間</span>
       </div>
       <div class="prog-meta-item">
@@ -1149,10 +1354,8 @@
 
   <!-- 1% BREAKDOWN -->
   <div class="one-pct-section">
-    <div class="one-pct-title">⏱️ 進捗 <span class="hl">1%単位</span> のタイムライン（目安5/7基準）</div>
-    <div class="one-pct-grid" id="one-pct-grid">
-      <!-- filled by JS -->
-    </div>
+    <div class="one-pct-title">⏱️ 進捗 <span class="hl">1%単位</span> のタイムライン（目安5/8基準）</div>
+    <div class="one-pct-grid" id="one-pct-grid"><!-- JS --></div>
   </div>
 
   <!-- STATS -->
@@ -1166,12 +1369,12 @@
     <div class="stat-card-v2 min-arr">
       <div class="stat-main-val" id="stat-min-days" style="color:var(--accent2);">0<span class="stat-main-unit">日</span></div>
       <div class="stat-sub" id="stat-min-sub">—</div>
-      <div class="stat-desc-lbl">最短到着 (5/3) まで</div>
+      <div class="stat-desc-lbl">最短到着 (5/5) まで</div>
     </div>
     <div class="stat-card-v2 avg-arr">
       <div class="stat-main-val" id="stat-avg-days" style="color:var(--accent);">0<span class="stat-main-unit">日</span></div>
       <div class="stat-sub" id="stat-avg-sub">—</div>
-      <div class="stat-desc-lbl">目安到着 (5/7) まで</div>
+      <div class="stat-desc-lbl">目安到着 (5/8) まで</div>
     </div>
   </div>
 
@@ -1203,28 +1406,28 @@
         <div class="tl-dot-wrap"><div class="tl-dot active">◉</div></div>
         <div class="tl-content">
           <div class="tl-title active-tl">🔧 PCを製作・準備中</div>
-          <div class="tl-date">現在進行中 — 通常3〜7営業日で完成</div>
+          <div class="tl-date">現在進行中 — 注文から9日目（5/3時点）</div>
         </div>
       </div>
       <div class="tl-item">
         <div class="tl-dot-wrap"><div class="tl-dot pending">○</div></div>
         <div class="tl-content">
           <div class="tl-title" style="color:var(--muted2);">発送処理</div>
-          <div class="tl-date">5月初旬 予定</div>
+          <div class="tl-date">5月4日〜5月6日 予定</div>
         </div>
       </div>
       <div class="tl-item">
         <div class="tl-dot-wrap"><div class="tl-dot pending">○</div></div>
         <div class="tl-content">
           <div class="tl-title" style="color:var(--muted2);">配送中</div>
-          <div class="tl-date">5月3日〜5月10日 予定</div>
+          <div class="tl-date">5月5日〜5月12日 予定</div>
         </div>
       </div>
       <div class="tl-item">
         <div class="tl-dot-wrap"><div class="tl-dot pending">🏠</div></div>
         <div class="tl-content">
           <div class="tl-title" style="color:var(--muted2);">到着！</div>
-          <div class="tl-date">最有力: 5月7日頃</div>
+          <div class="tl-date">最有力: 5月8日頃 ／ 遅くとも: 5月12日</div>
         </div>
       </div>
     </div>
@@ -1245,9 +1448,9 @@
 
   <div class="legend">
     <div class="leg-item"><div class="leg-dot" style="background:rgba(124,92,252,0.35);border:1px solid rgba(124,92,252,0.7);"></div>注文日（4/24）</div>
-    <div class="leg-item"><div class="leg-dot" style="background:rgba(0,184,255,0.18);border:1px solid rgba(0,184,255,0.6);"></div>今日</div>
-    <div class="leg-item"><div class="leg-dot" style="background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);"></div>到着予定期間（5/3〜5/10）</div>
-    <div class="leg-item"><div class="leg-dot" style="background:rgba(0,229,160,0.28);border:1px solid rgba(0,229,160,0.7);"></div>最有力到着日（5/7）</div>
+    <div class="leg-item"><div class="leg-dot" style="background:rgba(0,184,255,0.18);border:1px solid rgba(0,184,255,0.6);"></div>今日（5/3）</div>
+    <div class="leg-item"><div class="leg-dot" style="background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);"></div>到着予定期間（5/5〜5/12）</div>
+    <div class="leg-item"><div class="leg-dot" style="background:rgba(0,229,160,0.28);border:1px solid rgba(0,229,160,0.7);"></div>最有力到着日（5/8）</div>
   </div>
 
   <!-- FPS TABLE -->
@@ -1275,28 +1478,14 @@
             <th>快適度</th>
           </tr>
         </thead>
-        <tbody id="fps-tbody">
-          <!-- JS -->
-        </tbody>
+        <tbody id="fps-tbody"></tbody>
       </table>
     </div>
     <div class="fps-summary">
-      <div class="fps-sum-item">
-        <div class="fps-sum-val" id="fps-sum-low" style="color:var(--accent4);">—</div>
-        <div class="fps-sum-lbl">全LOW平均</div>
-      </div>
-      <div class="fps-sum-item">
-        <div class="fps-sum-val" id="fps-sum-mid" style="color:var(--accent2);">—</div>
-        <div class="fps-sum-lbl">全MEDIUM平均</div>
-      </div>
-      <div class="fps-sum-item">
-        <div class="fps-sum-val" id="fps-sum-high" style="color:var(--accent4);">—</div>
-        <div class="fps-sum-lbl">全HIGH平均</div>
-      </div>
-      <div class="fps-sum-item">
-        <div class="fps-sum-val" id="fps-sum-overall" style="color:var(--accent);">—</div>
-        <div class="fps-sum-lbl">総合平均</div>
-      </div>
+      <div class="fps-sum-item"><div class="fps-sum-val" id="fps-sum-low" style="color:var(--accent4);">—</div><div class="fps-sum-lbl">全LOW平均</div></div>
+      <div class="fps-sum-item"><div class="fps-sum-val" id="fps-sum-mid" style="color:var(--accent2);">—</div><div class="fps-sum-lbl">全MEDIUM平均</div></div>
+      <div class="fps-sum-item"><div class="fps-sum-val" id="fps-sum-high" style="color:var(--accent4);">—</div><div class="fps-sum-lbl">全HIGH平均</div></div>
+      <div class="fps-sum-item"><div class="fps-sum-val" id="fps-sum-overall" style="color:var(--accent);">—</div><div class="fps-sum-lbl">総合平均</div></div>
     </div>
   </div>
 
@@ -1304,7 +1493,7 @@
   <div class="sec-label">🖥️ スペック詳細</div>
   <div class="spec-card">
     <div class="spec-header">
-      <div class="spec-name-block">
+      <div>
         <div class="spec-title-lbl">PC MODEL</div>
         <div class="spec-name">RYZEN 7 5700X / RX 7600 BUILD</div>
       </div>
@@ -1314,12 +1503,12 @@
       </div>
     </div>
     <div class="spec-table">
-      <div class="spec-row"><span class="spec-key">CPU</span><span class="spec-val">AMD Ryzen 7 5700X (8C/16T, 3.4GHz〜4.6GHz)</span></div>
+      <div class="spec-row"><span class="spec-key">CPU</span><span class="spec-val">AMD Ryzen 7 5700X (8C/16T, 3.4〜4.6GHz)</span></div>
       <div class="spec-row"><span class="spec-key">GPU</span><span class="spec-val">AMD Radeon RX 7600 (8GB GDDR6)</span></div>
       <div class="spec-row"><span class="spec-key">RAM</span><span class="spec-val">DDR4 16GB (8GB×2) 3200MHz</span></div>
       <div class="spec-row"><span class="spec-key">SSD</span><span class="spec-val">500GB NVMe SSD</span></div>
       <div class="spec-row"><span class="spec-key">OS</span><span class="spec-val">Windows 11 Home</span></div>
-      <div class="spec-row"><span class="spec-key">CPUクーラー</span><span class="spec-val">リテールクーラー（AMD Wraith）</span></div>
+      <div class="spec-row"><span class="spec-key">CPUクーラー</span><span class="spec-val">AMD Wraith リテールクーラー</span></div>
       <div class="spec-row"><span class="spec-key">ケースファン</span><span class="spec-val">背面ファン 1個</span></div>
       <div class="spec-row"><span class="spec-key">WiFi</span><span class="spec-val">非搭載（有線LAN接続）</span></div>
       <div class="spec-row"><span class="spec-key">追加HDD</span><span class="spec-val">なし</span></div>
@@ -1335,37 +1524,38 @@
     <div style="font-size:11px;color:var(--muted2);margin-bottom:1rem;font-family:'JetBrains Mono',monospace;">
       ※ Ryzen 7 5700X / RX 7600 の参考動画リンク（YouTube検索結果）
     </div>
-    <div class="video-grid" id="video-grid">
-      <!-- JS -->
-    </div>
+    <div class="video-grid" id="video-grid"></div>
   </div>
 
   <!-- NEWS -->
   <div class="sec-label">📰 PC関連ニュース</div>
   <div class="news-card">
-    <div class="news-list" id="news-list">
-      <!-- JS -->
-    </div>
+    <div class="news-list" id="news-list"></div>
   </div>
 
   <div class="footer">
     注文日: 2026年4月24日 22:57:27 ·
     <span id="footer-time">—</span> 現在<br>
-    Powered by BANDAL GAMING TRACKER · Refreshed every second
+    Powered by BANDAL GAMING TRACKER · 毎秒リアルタイム更新
   </div>
 
 </div>
 
 <script>
   // ─── CONSTANTS ───
-  const ORDER    = new Date(2026, 3, 24, 22, 57, 27);
-  const MIN_ARR  = new Date(2026, 4,  3,  0,  0,  0);
-  const AVG_ARR  = new Date(2026, 4,  7, 12,  0,  0);
-  const MAX_ARR  = new Date(2026, 4, 10, 23, 59, 59);
+  const ORDER   = new Date(2026, 3, 24, 22, 57, 27);   // 2026/04/24 22:57:27
+  const MIN_ARR = new Date(2026, 4,  5,  0,  0,  0);   // 2026/05/05 00:00:00
+  const AVG_ARR = new Date(2026, 4,  8, 12,  0,  0);   // 2026/05/08 12:00:00
+  const MAX_ARR = new Date(2026, 4, 12, 23, 59, 59);   // 2026/05/12 23:59:59
   const TOTAL_MS = AVG_ARR - ORDER;
+  const ONE_PCT_MS = TOTAL_MS / 100;
   const DOW = ['日','月','火','水','木','金','土'];
 
-  function pad(n) { return String(Math.max(0,Math.floor(n))).padStart(2,'0'); }
+  let currentTarget = 'min';
+
+  function pad(n) { return String(Math.max(0, Math.floor(n))).padStart(2,'0'); }
+
+  function fmtNum(n) { return Number(n).toLocaleString('ja-JP'); }
 
   function msToHMS(ms) {
     if (ms <= 0) return '00時間00分00秒';
@@ -1382,6 +1572,24 @@
     return `${d}日 ${msToHMS(rem)}`;
   }
 
+  // ─── COUNTDOWN TAB SWITCH ───
+  function setTarget(t) {
+    currentTarget = t;
+    document.querySelectorAll('.cd-tab').forEach(el => el.classList.remove('active'));
+    document.getElementById('tab-' + t).classList.add('active');
+    const labels = {
+      min: '2026年5月5日（最短）まで',
+      avg: '2026年5月8日（目安）まで',
+      max: '2026年5月12日（最遅）まで'
+    };
+    document.getElementById('cd-target-label').textContent = labels[t];
+    const colors = { min: 'var(--accent2)', avg: 'var(--accent)', max: 'var(--accent4)' };
+    document.querySelectorAll('.cd-num').forEach(el => {
+      el.style.color = colors[t];
+      el.style.textShadow = `0 0 20px ${colors[t]}80`;
+    });
+  }
+
   // ─── CALENDAR ───
   function buildCalendar(gridId, year, month) {
     const grid = document.getElementById(gridId);
@@ -1396,7 +1604,6 @@
     for (let i = 0; i < firstDay; i++) {
       const el = document.createElement('div');
       el.className = 'cal-day empty';
-      el.textContent = '';
       grid.appendChild(el);
     }
     const today = new Date();
@@ -1405,10 +1612,10 @@
       const dow = date.getDay();
       const el = document.createElement('div');
       el.textContent = d;
-      const isToday    = date.toDateString() === today.toDateString();
-      const isOrder    = year===2026 && month===3 && d===24;
-      const isBest     = year===2026 && month===4 && d===7;
-      const isRange    = year===2026 && month===4 && d>=3 && d<=10 && !isBest;
+      const isToday   = date.toDateString() === today.toDateString();
+      const isOrder   = year === 2026 && month === 3 && d === 24;
+      const isBest    = year === 2026 && month === 4 && d === 8;
+      const isRange   = year === 2026 && month === 4 && d >= 5 && d <= 12 && !isBest;
       if      (isOrder) el.className = 'cal-day order-day';
       else if (isToday) el.className = 'cal-day today-day';
       else if (isBest)  el.className = 'cal-day arrival-best';
@@ -1424,7 +1631,7 @@
 
   // ─── FPS DATA ───
   const FPS_GAMES = [
-    { icon:'🎯', name:'CS2 (Counter-Strike 2)',   low:300, mid:230, high:170, comfort:'🟢 最高' },
+    { icon:'🎯', name:'CS2 (Counter-Strike 2)',    low:300, mid:230, high:170, comfort:'🟢 最高' },
     { icon:'🔫', name:'Valorant',                  low:420, mid:310, high:200, comfort:'🟢 最高' },
     { icon:'🦅', name:'Apex Legends',              low:190, mid:140, high: 95, comfort:'🟢 快適' },
     { icon:'🌀', name:'Fortnite',                  low:210, mid:155, high: 95, comfort:'🟢 快適' },
@@ -1437,7 +1644,6 @@
   ];
 
   const maxFPS = Math.max(...FPS_GAMES.map(g => g.low));
-
   const tbody = document.getElementById('fps-tbody');
   FPS_GAMES.forEach(g => {
     const avg = Math.round((g.low + g.mid + g.high) / 3);
@@ -1454,24 +1660,24 @@
     tbody.appendChild(tr);
   });
 
-  const sumLow  = Math.round(FPS_GAMES.reduce((a,g)=>a+g.low, 0)  / FPS_GAMES.length);
-  const sumMid  = Math.round(FPS_GAMES.reduce((a,g)=>a+g.mid, 0)  / FPS_GAMES.length);
-  const sumHigh = Math.round(FPS_GAMES.reduce((a,g)=>a+g.high, 0) / FPS_GAMES.length);
+  const sumLow  = Math.round(FPS_GAMES.reduce((a,g) => a+g.low,  0) / FPS_GAMES.length);
+  const sumMid  = Math.round(FPS_GAMES.reduce((a,g) => a+g.mid,  0) / FPS_GAMES.length);
+  const sumHigh = Math.round(FPS_GAMES.reduce((a,g) => a+g.high, 0) / FPS_GAMES.length);
   const sumAll  = Math.round((sumLow+sumMid+sumHigh)/3);
-  document.getElementById('fps-sum-low').textContent  = sumLow;
-  document.getElementById('fps-sum-mid').textContent  = sumMid;
-  document.getElementById('fps-sum-high').textContent = sumHigh;
+  document.getElementById('fps-sum-low').textContent     = sumLow;
+  document.getElementById('fps-sum-mid').textContent     = sumMid;
+  document.getElementById('fps-sum-high').textContent    = sumHigh;
   document.getElementById('fps-sum-overall').textContent = sumAll;
   document.getElementById('fps-overall-avg').textContent = sumAll;
 
-  // ─── VIDEO LINKS ───
+  // ─── VIDEOS ───
   const VIDEOS = [
-    { title:'RX 7600 + Ryzen 7 5700X FPS Benchmark 2025',      meta:'ベンチマーク総合', tag:'FPS TEST', url:'https://www.youtube.com/results?search_query=RX+7600+Ryzen+7+5700X+benchmark+fps' },
-    { title:'RX 7600 Cyberpunk 2077 / CS2 ゲームプレイ',       meta:'人気ゲームテスト', tag:'GAMEPLAY',  url:'https://www.youtube.com/results?search_query=RX+7600+gameplay+cyberpunk+cs2' },
-    { title:'Ryzen 7 5700X ゲーミングレビュー 2025',            meta:'CPU性能確認',      tag:'REVIEW',   url:'https://www.youtube.com/results?search_query=Ryzen+7+5700X+gaming+review+2025' },
-    { title:'RX 7600 vs RTX 3060 ゲーミング比較',               meta:'競合GPU比較',      tag:'COMPARE',  url:'https://www.youtube.com/results?search_query=RX+7600+vs+RTX+3060+gaming+benchmark' },
-    { title:'AMD RX 7600 ゲーミングPC 組み立て・レビュー',      meta:'PCビルド動画',     tag:'BUILD',    url:'https://www.youtube.com/results?search_query=AMD+RX+7600+gaming+PC+build+review' },
-    { title:'Valorant / Apex 240fps 達成 RX 7600 設定',         meta:'競技FPS設定解説',  tag:'ESPORTS',  url:'https://www.youtube.com/results?search_query=RX+7600+Valorant+Apex+high+fps+settings' },
+    { title:'RX 7600 + Ryzen 7 5700X FPS Benchmark 2025',     meta:'ベンチマーク総合', tag:'FPS TEST', url:'https://www.youtube.com/results?search_query=RX+7600+Ryzen+7+5700X+benchmark+fps' },
+    { title:'RX 7600 Cyberpunk 2077 / CS2 ゲームプレイ',      meta:'人気ゲームテスト', tag:'GAMEPLAY',  url:'https://www.youtube.com/results?search_query=RX+7600+gameplay+cyberpunk+cs2' },
+    { title:'Ryzen 7 5700X ゲーミングレビュー 2025',           meta:'CPU性能確認',      tag:'REVIEW',    url:'https://www.youtube.com/results?search_query=Ryzen+7+5700X+gaming+review+2025' },
+    { title:'RX 7600 vs RTX 3060 ゲーミング比較',              meta:'競合GPU比較',      tag:'COMPARE',   url:'https://www.youtube.com/results?search_query=RX+7600+vs+RTX+3060+gaming+benchmark' },
+    { title:'AMD RX 7600 ゲーミングPC 組み立て・レビュー',     meta:'PCビルド動画',     tag:'BUILD',     url:'https://www.youtube.com/results?search_query=AMD+RX+7600+gaming+PC+build+review' },
+    { title:'Valorant / Apex 240fps 達成 RX 7600 設定',        meta:'競技FPS設定解説',  tag:'ESPORTS',   url:'https://www.youtube.com/results?search_query=RX+7600+Valorant+Apex+high+fps+settings' },
   ];
 
   const vg = document.getElementById('video-grid');
@@ -1485,10 +1691,7 @@
       <div class="video-thumb">▶️</div>
       <div class="video-info">
         <div class="video-title">${v.title}</div>
-        <div class="video-meta">
-          <span class="video-tag">${v.tag}</span>
-          ${v.meta}
-        </div>
+        <div class="video-meta"><span class="video-tag">${v.tag}</span>${v.meta}</div>
       </div>
     `;
     vg.appendChild(a);
@@ -1496,12 +1699,12 @@
 
   // ─── NEWS ───
   const NEWS = [
-    { cat:'gpu', catLabel:'GPU', title:'AMD RX 7600 XT が登場 — RX 7600の後継モデルが発表', desc:'AMDは2025年にRX 7600 XTを発表。あなたの選んだRX 7600は同ファミリーの中核モデルとして依然コスパ最強の評価を維持。', date:'2025年末' },
-    { cat:'driver', catLabel:'DRIVER', title:'AMD Adrenalin 2025 ドライバー更新 — Ryzen+Radeon最適化強化', desc:'最新Adrenalinドライバーでフレーム生成(Fluid Motion Frames)の安定性向上。RX 7600でCS2やApexのフレームレートが数%改善。', date:'2025年12月' },
-    { cat:'game', catLabel:'GAME', title:'GTA VI 2026年内発売予定 — 推奨GPUにRX 7600ランクイン', desc:'Rockstar Gamesが推奨スペックを公開。RX 7600は1080p中設定で60fps以上の目標値を満たす推奨ランクに位置づけ。', date:'2026年4月' },
-    { cat:'cpu', catLabel:'CPU', title:'Ryzen 7 5700X は2026年もゲーミングCPUの定番', desc:'AM4最終世代のRyzen 5000シリーズは依然コスパ王者。DDR4メモリとの組み合わせで安定した高性能を発揮し続けている。', date:'2026年4月' },
-    { cat:'gpu', catLabel:'GPU', title:'Fortniteがアップデート — RX 7600でパフォーマンスモード240fps達成報告', desc:'最新アップデートでDX12最適化が強化。RX 7600ユーザーから低設定での240fps超えの報告が相次いでいる。', date:'2026年3月' },
-    { cat:'game', catLabel:'GAME', title:'Elden Ring DLC第2弾の噂 — 最適化でミドルレンジGPUでも快適動作', desc:'フロム・ソフトウェアが追加コンテンツの最適化を改善。RX 7600でも安定した60fps動作が実現できると海外レビューが報告。', date:'2026年4月' },
+    { cat:'gpu',    catLabel:'GPU',    title:'AMD RX 7600 XT が登場 — RX 7600の後継モデルが発表',          desc:'AMDは2025年にRX 7600 XTを発表。RX 7600は同ファミリーの中核モデルとして依然コスパ最強の評価を維持。',        date:'2025年末' },
+    { cat:'driver', catLabel:'DRIVER', title:'AMD Adrenalin 2025 ドライバー更新 — Ryzen+Radeon最適化強化', desc:'最新ドライバーでFluid Motion Framesの安定性向上。CS2やApexのフレームレートが数%改善。',                    date:'2025年12月' },
+    { cat:'game',   catLabel:'GAME',   title:'GTA VI 2026年内発売予定 — 推奨GPUにRX 7600ランクイン',       desc:'Rockstar Gamesが推奨スペックを公開。RX 7600は1080p中設定で60fps以上の目標値を満たす推奨ランクに位置づけ。', date:'2026年4月' },
+    { cat:'cpu',    catLabel:'CPU',    title:'Ryzen 7 5700X は2026年もゲーミングCPUの定番',                desc:'AM4最終世代のRyzen 5000シリーズは依然コスパ王者。DDR4との組み合わせで安定した高性能を発揮し続けている。',    date:'2026年4月' },
+    { cat:'gpu',    catLabel:'GPU',    title:'Fortnite最新アップデート — RX 7600でパフォーマンスモード240fps達成報告', desc:'DX12最適化強化でRX 7600ユーザーから低設定での240fps超えの報告が相次いでいる。',                        date:'2026年3月' },
+    { cat:'game',   catLabel:'GAME',   title:'Elden Ring DLC第2弾の噂 — 最適化でミドルレンジGPUでも快適動作', desc:'フロム・ソフトウェアが追加コンテンツの最適化を改善。RX 7600でも安定した60fps動作が実現できると報告。',     date:'2026年4月' },
   ];
 
   const nl = document.getElementById('news-list');
@@ -1524,21 +1727,23 @@
     const grid = document.getElementById('one-pct-grid');
     grid.innerHTML = '';
     const now = new Date();
-    const ONE_PCT_MS = TOTAL_MS / 100;
+    const currentPct = Math.floor(Math.min(100, Math.max(0, (now - ORDER) / TOTAL_MS * 100)));
     const highlights = [1,5,10,15,20,25,30,40,50,60,70,75,80,85,90,95,100];
     highlights.forEach(pct => {
       const targetTime = new Date(ORDER.getTime() + ONE_PCT_MS * pct);
       const isFuture = targetTime > now;
       const isPast   = targetTime <= now;
+      const isCurrent = pct === currentPct || (pct === currentPct + 1 && isFuture);
       const diff     = targetTime - now;
-      const dtStr = targetTime.toLocaleDateString('ja-JP',{month:'short',day:'numeric'})
-                  + ' ' + targetTime.toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit'});
+      const dtStr = targetTime.toLocaleDateString('ja-JP', {month:'short', day:'numeric'})
+                  + ' ' + targetTime.toLocaleTimeString('ja-JP', {hour:'2-digit', minute:'2-digit'});
       const el = document.createElement('div');
-      el.className = 'one-pct-item';
+      el.className = 'one-pct-item' + (isCurrent ? ' current-pct' : '');
+      let valClass = isFuture ? 'future' : (pct < currentPct ? 'past' : 'now');
       el.innerHTML = `
-        <span class="key">${pct}%到達</span>
-        <span class="val ${isFuture ? 'future' : ''}">
-          ${isPast ? '✓ ' : ''}${dtStr}${isFuture ? '<br><small style="color:var(--muted);font-size:9px;">あと'+msToDHMS(diff)+'</small>' : ''}
+        <span class="key">${pct}% 到達</span>
+        <span class="val ${valClass}">
+          ${isPast ? '✓ ' : ''}${dtStr}${isFuture ? '<br><small style="color:var(--muted);font-size:9px;">あと ' + msToDHMS(diff) + '</small>' : ''}
         </span>
       `;
       grid.appendChild(el);
@@ -1550,34 +1755,55 @@
   function tick() {
     const now = new Date();
 
-    // Clock
-    const clockStr = now.toLocaleDateString('ja-JP', {year:'numeric',month:'long',day:'numeric',weekday:'short'})
-      + ' ' + now.toLocaleTimeString('ja-JP');
+    // ─ Clock
+    const clockStr = now.toLocaleDateString('ja-JP', {
+        year:'numeric', month:'long', day:'numeric', weekday:'short'
+      }) + ' ' + now.toLocaleTimeString('ja-JP');
     document.getElementById('live-clock-text').textContent = clockStr;
     document.getElementById('footer-time').textContent = now.toLocaleTimeString('ja-JP');
 
-    // Countdown (to MIN_ARR)
-    const diffMin = MIN_ARR - now;
-    if (diffMin <= 0) {
-      ['cd-days','cd-hours','cd-mins','cd-secs'].forEach(id => document.getElementById(id).textContent='00');
-      if (now > MAX_ARR) document.getElementById('arrived-banner').style.display = 'block';
-    } else {
-      document.getElementById('cd-days').textContent  = pad(Math.floor(diffMin / 86400000));
-      document.getElementById('cd-hours').textContent = pad(Math.floor((diffMin % 86400000) / 3600000));
-      document.getElementById('cd-mins').textContent  = pad(Math.floor((diffMin % 3600000) / 60000));
-      document.getElementById('cd-secs').textContent  = pad(Math.floor((diffMin % 60000) / 1000));
+    // ─ Elapsed
+    const elapsedMs  = Math.max(0, now - ORDER);
+    const elapsedS   = Math.floor(elapsedMs / 1000);
+    const elapsedMin = Math.floor(elapsedMs / 60000);
+    const elapsedH   = Math.floor(elapsedMs / 3600000);
+    const elapsedD   = Math.floor(elapsedMs / 86400000);
+    const elapsedRem = elapsedMs % 86400000;
+
+    document.getElementById('elapsed-hero-num').textContent = `${elapsedD}日 ${msToHMS(elapsedRem)}`;
+    document.getElementById('elapsed-hero-sub').textContent = `注文から${elapsedD}日と${msToHMS(elapsedRem)}が経過しました`;
+    document.getElementById('elapsed-hours-total').textContent = fmtNum(elapsedH) + 'h';
+    document.getElementById('elapsed-mins-total').textContent  = fmtNum(elapsedMin) + 'm';
+    document.getElementById('elapsed-secs-total').textContent  = fmtNum(elapsedS) + 's';
+
+    // ─ Seconds ticker (to MIN_ARR)
+    const diffMinMs = Math.max(0, MIN_ARR - now);
+    document.getElementById('sk-days').textContent  = pad(Math.floor(diffMinMs / 86400000));
+    document.getElementById('sk-hours').textContent = pad(Math.floor((diffMinMs % 86400000) / 3600000));
+    document.getElementById('sk-mins').textContent  = pad(Math.floor((diffMinMs % 3600000) / 60000));
+    document.getElementById('sk-secs').textContent  = pad(Math.floor((diffMinMs % 60000) / 1000));
+
+    // ─ Arrived check
+    if (now > MAX_ARR) {
+      document.getElementById('arrived-banner').style.display = 'block';
     }
 
-    // Detailed countdowns
-    const diffMinMs = Math.max(0, MIN_ARR - now);
-    const diffAvgMs = Math.max(0, AVG_ARR - now);
-    document.getElementById('cd-detail-min').textContent = diffMinMs > 0 ? msToDHMS(diffMinMs) : '到着済み';
-    document.getElementById('cd-detail-avg').textContent = diffAvgMs > 0 ? msToDHMS(diffAvgMs) : '到着済み';
+    // ─ Countdown tabs
+    const targets = { min: MIN_ARR, avg: AVG_ARR, max: MAX_ARR };
+    const diffCur = Math.max(0, targets[currentTarget] - now);
+    document.getElementById('cd-days').textContent  = pad(Math.floor(diffCur / 86400000));
+    document.getElementById('cd-hours').textContent = pad(Math.floor((diffCur % 86400000) / 3600000));
+    document.getElementById('cd-mins').textContent  = pad(Math.floor((diffCur % 3600000) / 60000));
+    document.getElementById('cd-secs').textContent  = pad(Math.floor((diffCur % 60000) / 1000));
 
-    // Stats
-    const elapsedMs = now - ORDER;
-    const elapsedD  = Math.floor(elapsedMs / 86400000);
-    const elapsedRem = elapsedMs % 86400000;
+    // cd-note details
+    const diffAvgMs = Math.max(0, AVG_ARR - now);
+    const diffMaxMs = Math.max(0, MAX_ARR - now);
+    document.getElementById('cd-detail-min').textContent = diffMinMs > 0 ? msToDHMS(diffMinMs) : '✓ 到着済み';
+    document.getElementById('cd-detail-avg').textContent = diffAvgMs > 0 ? msToDHMS(diffAvgMs) : '✓ 到着済み';
+    document.getElementById('cd-detail-max').textContent = diffMaxMs > 0 ? msToDHMS(diffMaxMs) : '✓ 到着済み';
+
+    // ─ Stats cards
     document.getElementById('stat-elapsed-days').innerHTML = `${elapsedD}<span class="stat-main-unit">日</span>`;
     document.getElementById('stat-elapsed-sub').textContent = msToHMS(elapsedRem) + ' 経過';
 
@@ -1591,18 +1817,25 @@
     document.getElementById('stat-avg-days').innerHTML = `${avgD}<span class="stat-main-unit">日</span>`;
     document.getElementById('stat-avg-sub').textContent = diffAvgMs > 0 ? msToHMS(avgRem) + ' 後' : '到着済み';
 
-    // Progress
+    // ─ Progress bar
     const pct = Math.min(100, Math.max(0, (elapsedMs / TOTAL_MS) * 100));
-    const pctRounded = Math.floor(pct);
-    document.getElementById('prog-pct-text').textContent = pct.toFixed(2) + '%';
+    const pctFloor = Math.floor(pct);
+    document.getElementById('prog-pct-text').textContent = pct.toFixed(4) + '%';
     document.getElementById('prog-fill').style.width = pct + '%';
-    document.getElementById('prog-remaining-pct').textContent = (100 - pctRounded) + '%残';
+    document.getElementById('prog-remaining-pct').textContent = (100 - pctFloor) + '%残';
 
-    // Next 1% time
-    const ONE_PCT_MS = TOTAL_MS / 100;
-    const nextPctTime = new Date(ORDER.getTime() + ONE_PCT_MS * (pctRounded + 1));
+    // Next 1%
+    const nextPctTime = new Date(ORDER.getTime() + ONE_PCT_MS * (pctFloor + 1));
     const nextPctDiff = Math.max(0, nextPctTime - now);
     document.getElementById('prog-next1pct').textContent = msToHMS(nextPctDiff);
+
+    // 1% duration label
+    const onePctH = Math.floor(ONE_PCT_MS / 3600000);
+    const onePctM = Math.floor((ONE_PCT_MS % 3600000) / 60000);
+    document.getElementById('prog-1pct-duration').textContent = `約${onePctH}時間${onePctM}分`;
+
+    // ─ 1% grid refresh (every 60s is enough but we do it every tick to keep 'あと' accurate)
+    build1PctGrid();
   }
 
   tick();
