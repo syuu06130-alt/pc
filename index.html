@@ -3,1843 +3,885 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🖥️ PC到着カウントダウン — ULTRA EDITION</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+JP:wght@300;400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<title>BANDAL GAMING ORDER TRACKER — P186336049671509345</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Noto+Sans+JP:wght@400;500;700;900&family=Bebas+Neue&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #080a0d;
-    --bg2: #0e1117;
-    --bg3: #141820;
-    --bg4: #1a1f28;
-    --accent: #00e5a0;
-    --accent2: #00b8ff;
-    --accent3: #7c5cfc;
-    --accent4: #ff6b35;
-    --text: #eef0f4;
-    --muted: #4a5468;
-    --muted2: #6b7a94;
-    --border: #1a2030;
-    --border2: #222a38;
-    --glow: rgba(0,229,160,0.12);
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Noto Sans JP', sans-serif;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(0,229,160,0.025) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,229,160,0.025) 1px, transparent 1px);
-    background-size: 48px 48px;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  body::after {
-    content: '';
-    position: fixed;
-    top: -200px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(circle, rgba(0,229,160,0.06) 0%, transparent 70%);
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  .container {
-    position: relative;
-    z-index: 1;
-    max-width: 920px;
-    margin: 0 auto;
-    padding: 2.5rem 1.25rem 5rem;
-  }
-
-  /* ── HEADER ── */
-  .header { text-align: center; margin-bottom: 2.5rem; }
-
-  .badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: rgba(0,229,160,0.08);
-    border: 1px solid rgba(0,229,160,0.25);
-    color: var(--accent);
-    font-size: 10px;
-    letter-spacing: 0.14em;
-    padding: 5px 16px;
-    border-radius: 99px;
-    margin-bottom: 1rem;
-    font-family: 'JetBrains Mono', monospace;
-    text-transform: uppercase;
-  }
-
-  .live-dot {
-    display: inline-block;
-    width: 7px;
-    height: 7px;
-    background: var(--accent);
-    border-radius: 50%;
-    animation: pulse 1.4s ease-in-out infinite;
-  }
-
-  @keyframes pulse {
-    0%,100% { opacity:1; transform:scale(1); box-shadow: 0 0 0 0 rgba(0,229,160,0.5); }
-    50% { opacity:0.5; transform:scale(0.7); box-shadow: 0 0 0 4px rgba(0,229,160,0); }
-  }
-
-  .main-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(3rem, 9vw, 6rem);
-    letter-spacing: 0.04em;
-    line-height: 1;
-    color: var(--text);
-    margin-bottom: 0.4rem;
-  }
-
-  .main-title .hl { color: var(--accent); }
-  .subtitle {
-    font-size: 12px;
-    color: var(--muted2);
-    font-family: 'JetBrains Mono', monospace;
-    letter-spacing: 0.06em;
-  }
-
-  /* ── LIVE CLOCK BAR ── */
-  .clock-bar {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 0.75rem 1.25rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 1.5rem;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    color: var(--muted2);
-  }
-
-  .clock-bar .live-indicator {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    color: var(--accent);
-  }
-
-  /* ── SECTION LABEL ── */
-  .sec-label {
-    font-size: 10px;
-    letter-spacing: 0.15em;
-    color: var(--muted);
-    text-transform: uppercase;
-    font-family: 'JetBrains Mono', monospace;
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .sec-label::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
-
-  /* ── ELAPSED SINCE ORDER ── */
-  .elapsed-hero {
-    background: linear-gradient(135deg, rgba(124,92,252,0.08), rgba(0,184,255,0.05));
-    border: 1px solid rgba(124,92,252,0.3);
-    border-radius: 20px;
-    padding: 1.5rem;
-    margin-bottom: 1.25rem;
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    flex-wrap: wrap;
-  }
-
-  .elapsed-hero-icon {
-    font-size: 2.5rem;
-    flex-shrink: 0;
-  }
-
-  .elapsed-hero-body { flex: 1; min-width: 160px; }
-
-  .elapsed-hero-label {
-    font-size: 10px;
-    color: var(--muted2);
-    font-family: 'JetBrains Mono', monospace;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-bottom: 4px;
-  }
-
-  .elapsed-hero-num {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(1.8rem, 5vw, 2.8rem);
-    color: #c4b0ff;
-    line-height: 1;
-    letter-spacing: 0.04em;
-  }
-
-  .elapsed-hero-sub {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    color: var(--muted2);
-    margin-top: 4px;
-  }
-
-  .elapsed-hero-right {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    align-items: flex-end;
-  }
-
-  .elapsed-mini {
-    background: var(--bg3);
-    border: 1px solid var(--border2);
-    border-radius: 8px;
-    padding: 5px 10px;
-    text-align: right;
-  }
-
-  .elapsed-mini-val {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--accent2);
-  }
-
-  .elapsed-mini-lbl {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 9px;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-  }
-
-  /* ── COUNTDOWN ── */
-  .countdown-card {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 2rem 1.5rem 1.5rem;
-    margin-bottom: 1.25rem;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .countdown-card::before {
-    content: '';
-    position: absolute;
-    bottom: -40px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 300px;
-    height: 200px;
-    background: radial-gradient(circle, rgba(0,229,160,0.07), transparent 70%);
-    pointer-events: none;
-  }
-
-  .cd-tabs {
-    display: flex;
-    gap: 8px;
-    justify-content: center;
-    margin-bottom: 1.5rem;
-    flex-wrap: wrap;
-  }
-
-  .cd-tab {
-    padding: 5px 14px;
-    border-radius: 99px;
-    font-size: 11px;
-    font-family: 'JetBrains Mono', monospace;
-    letter-spacing: 0.06em;
-    cursor: pointer;
-    border: 1px solid var(--border2);
-    background: var(--bg3);
-    color: var(--muted2);
-    transition: all 0.2s;
-    user-select: none;
-  }
-
-  .cd-tab.active {
-    background: rgba(0,229,160,0.12);
-    border-color: rgba(0,229,160,0.4);
-    color: var(--accent);
-  }
-
-  .cd-title {
-    font-size: 11px;
-    color: var(--muted2);
-    font-family: 'JetBrains Mono', monospace;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-bottom: 1.5rem;
-    transition: opacity 0.3s;
-  }
-
-  .countdown-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-    margin-bottom: 1.25rem;
-  }
-
-  .cd-unit {
-    background: var(--bg3);
-    border: 1px solid var(--border2);
-    border-radius: 14px;
-    padding: 1.2rem 0.5rem 1rem;
-    position: relative;
-    overflow: hidden;
-    transition: border-color 0.3s;
-  }
-
-  .cd-unit::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, var(--accent), transparent);
-    opacity: 0.4;
-  }
-
-  .cd-num {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(2.2rem, 6.5vw, 4rem);
-    line-height: 1;
-    color: var(--accent);
-    display: block;
-    letter-spacing: 0.02em;
-    text-shadow: 0 0 20px rgba(0,229,160,0.3);
-    transition: color 0.3s, text-shadow 0.3s;
-  }
-
-  .cd-lbl {
-    font-size: 9px;
-    color: var(--muted);
-    font-family: 'JetBrains Mono', monospace;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-top: 5px;
-    display: block;
-  }
-
-  .cd-note {
-    font-size: 11px;
-    color: var(--muted2);
-    font-family: 'JetBrains Mono', monospace;
-    line-height: 1.8;
-  }
-
-  .cd-note span { color: var(--accent); }
-  .cd-note span.hl2 { color: var(--accent2); }
-  .cd-note span.hl3 { color: #ff9f43; }
-
-  /* ── LIVE SECONDS ── */
-  .seconds-ticker {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 1rem 1.5rem;
-    margin-bottom: 1.25rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-
-  .secs-block {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .secs-num {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 2.2rem;
-    line-height: 1;
-    letter-spacing: 0.04em;
-  }
-
-  .secs-lbl {
-    font-size: 9px;
-    color: var(--muted);
-    font-family: 'JetBrains Mono', monospace;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    margin-top: 3px;
-  }
-
-  .secs-divider {
-    color: var(--muted);
-    font-size: 1.5rem;
-    font-family: 'Bebas Neue', sans-serif;
-    opacity: 0.3;
-  }
-
-  /* ── PROGRESS ── */
-  .progress-card {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 1.25rem 1.5rem;
-    margin-bottom: 1.25rem;
-  }
-
-  .prog-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 0.75rem;
-  }
-
-  .prog-label {
-    font-size: 11px;
-    color: var(--muted2);
-    font-family: 'JetBrains Mono', monospace;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-  }
-
-  .prog-pct {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.6rem;
-    color: var(--accent);
-    letter-spacing: 0.04em;
-    line-height: 1;
-  }
-
-  .prog-track {
-    height: 8px;
-    background: var(--bg3);
-    border-radius: 99px;
-    overflow: hidden;
-    margin-bottom: 0.75rem;
-    position: relative;
-  }
-
-  .prog-fill {
-    height: 100%;
-    border-radius: 99px;
-    background: linear-gradient(90deg, var(--accent3), var(--accent2), var(--accent));
-    transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
-    position: relative;
-  }
-
-  .prog-fill::after {
-    content: '';
-    position: absolute;
-    right: 0; top: 0; bottom: 0;
-    width: 30px;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3));
-    border-radius: 99px;
-    animation: shimmer 2s ease-in-out infinite;
-  }
-
-  @keyframes shimmer {
-    0%,100% { opacity: 0.5; }
-    50% { opacity: 1; }
-  }
-
-  .prog-meta {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-    margin-top: 0.75rem;
-  }
-
-  .prog-meta-item {
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 0.6rem 0.75rem;
-    text-align: center;
-  }
-
-  .prog-meta-val {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 13px;
-    color: var(--accent2);
-    font-weight: 700;
-    display: block;
-  }
-
-  .prog-meta-lbl {
-    font-size: 10px;
-    color: var(--muted);
-    margin-top: 2px;
-    display: block;
-  }
-
-  .prog-dates {
-    display: flex;
-    justify-content: space-between;
-    font-size: 10px;
-    color: var(--muted);
-    font-family: 'JetBrains Mono', monospace;
-    padding-top: 4px;
-  }
-
-  /* ── 1% TIME ── */
-  .one-pct-section {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 1.25rem 1.5rem;
-    margin-bottom: 1.25rem;
-  }
-
-  .one-pct-title {
-    font-size: 11px;
-    color: var(--muted2);
-    font-family: 'JetBrains Mono', monospace;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .one-pct-title .hl { color: var(--accent4); }
-
-  .one-pct-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
-  }
-
-  .one-pct-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    padding: 0.5rem 0.75rem;
-    background: var(--bg3);
-    border-radius: 9px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    gap: 8px;
-    border: 1px solid transparent;
-    transition: border-color 0.3s;
-  }
-
-  .one-pct-item.current-pct {
-    border-color: rgba(0,229,160,0.4);
-    background: rgba(0,229,160,0.05);
-  }
-
-  .one-pct-item .key { color: var(--muted); flex-shrink: 0; }
-  .one-pct-item .val { color: var(--text); font-weight: 700; text-align: right; }
-  .one-pct-item .val.future { color: var(--accent2); }
-  .one-pct-item .val.past { color: var(--muted2); text-decoration: line-through; }
-  .one-pct-item .val.now { color: var(--accent); }
-
-  /* ── DETAILED STATS ── */
-  .stats-3col {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-bottom: 1.25rem;
-  }
-
-  .stat-card-v2 {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 1rem;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .stat-card-v2::before {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 2px;
-  }
-
-  .stat-card-v2.elapsed::before { background: linear-gradient(90deg, transparent, var(--accent3), transparent); }
-  .stat-card-v2.min-arr::before { background: linear-gradient(90deg, transparent, var(--accent2), transparent); }
-  .stat-card-v2.avg-arr::before { background: linear-gradient(90deg, transparent, var(--accent), transparent); }
-
-  .stat-main-val {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 2.2rem;
-    line-height: 1;
-    letter-spacing: 0.02em;
-  }
-
-  .stat-main-unit {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    margin-left: 3px;
-    opacity: 0.7;
-  }
-
-  .stat-sub {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    color: var(--muted2);
-    margin-top: 4px;
-    line-height: 1.5;
-    min-height: 2.4em;
-  }
-
-  .stat-desc-lbl {
-    font-size: 10px;
-    color: var(--muted);
-    font-family: 'JetBrains Mono', monospace;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    margin-top: 6px;
-  }
-
-  /* ── CALENDAR ── */
-  .calendars {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-    margin-bottom: 1.25rem;
-  }
-
-  .cal-card {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 1.25rem;
-  }
-
-  .cal-month-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.4rem;
-    letter-spacing: 0.06em;
-    color: var(--text);
-    margin-bottom: 10px;
-    text-align: center;
-  }
-
-  .cal-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 2px;
-  }
-
-  .cal-dow {
-    font-size: 9px;
-    color: var(--muted);
-    text-align: center;
-    padding-bottom: 5px;
-    font-family: 'JetBrains Mono', monospace;
-    letter-spacing: 0.04em;
-  }
-
-  .cal-day {
-    font-size: 11px;
-    text-align: center;
-    padding: 5px 2px;
-    border-radius: 6px;
-    font-family: 'JetBrains Mono', monospace;
-    line-height: 1.2;
-  }
-
-  .cal-day.empty { opacity: 0; pointer-events: none; }
-  .cal-day.muted { color: var(--muted); }
-  .cal-day.sat { color: var(--accent2); }
-  .cal-day.sun { color: #ff6b6b; }
-  .cal-day.order-day { background: rgba(124,92,252,0.22); color: #c4b0ff; font-weight: 700; border: 1px solid rgba(124,92,252,0.45); }
-  .cal-day.today-day { background: rgba(0,184,255,0.15); color: var(--accent2); font-weight: 700; border: 1px solid rgba(0,184,255,0.4); }
-  .cal-day.arrival-range { background: rgba(0,229,160,0.07); color: rgba(0,229,160,0.75); border: 1px solid rgba(0,229,160,0.18); }
-  .cal-day.arrival-best { background: rgba(0,229,160,0.22); color: var(--accent); font-weight: 700; border: 1px solid rgba(0,229,160,0.6); box-shadow: 0 0 8px rgba(0,229,160,0.2); }
-
-  /* ── LEGEND ── */
-  .legend {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 0.9rem 1.25rem;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 14px;
-    margin-bottom: 1.25rem;
-    align-items: center;
-  }
-
-  .leg-item {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    font-size: 11px;
-    color: var(--muted2);
-    font-family: 'JetBrains Mono', monospace;
-  }
-
-  .leg-dot {
-    width: 13px;
-    height: 13px;
-    border-radius: 4px;
-    flex-shrink: 0;
-  }
-
-  /* ── FPS TABLE ── */
-  .fps-card {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    padding: 1.5rem;
-    margin-bottom: 1.25rem;
-    overflow-x: auto;
-  }
-
-  .fps-header-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 1.25rem;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  .fps-title-block h3 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.3rem;
-    letter-spacing: 0.05em;
-    color: var(--text);
-  }
-
-  .fps-title-block p {
-    font-size: 11px;
-    color: var(--muted2);
-    font-family: 'JetBrains Mono', monospace;
-    margin-top: 3px;
-  }
-
-  .fps-avg-badge {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 2px;
-  }
-
-  .fps-avg-num {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 2rem;
-    color: var(--accent);
-    line-height: 1;
-  }
-
-  .fps-avg-lbl {
-    font-size: 10px;
-    color: var(--muted2);
-    font-family: 'JetBrains Mono', monospace;
-  }
-
-  table.fps-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 12px;
-    min-width: 500px;
-  }
-
-  .fps-table thead tr { border-bottom: 1px solid var(--border2); }
-
-  .fps-table thead th {
-    padding: 0.5rem 0.75rem;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--muted);
-    text-align: right;
-    font-weight: 400;
-  }
-
-  .fps-table thead th:first-child { text-align: left; }
-
-  .fps-table tbody tr {
-    border-bottom: 1px solid var(--border);
-    transition: background 0.15s;
-  }
-
-  .fps-table tbody tr:last-child { border-bottom: none; }
-  .fps-table tbody tr:hover { background: var(--bg3); }
-
-  .fps-table td {
-    padding: 0.65rem 0.75rem;
-    text-align: right;
-    font-family: 'JetBrains Mono', monospace;
-  }
-
-  .fps-table td:first-child { text-align: left; }
-
-  .game-name {
-    color: var(--text);
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .game-icon { font-size: 14px; width: 20px; text-align: center; }
-
-  .fps-val {
-    font-weight: 700;
-    padding: 2px 6px;
-    border-radius: 5px;
-    display: inline-block;
-    min-width: 38px;
-    text-align: center;
-  }
-
-  .fps-low { color: #ff9f43; background: rgba(255,159,67,0.1); }
-  .fps-mid { color: var(--accent2); background: rgba(0,184,255,0.1); }
-  .fps-high { color: #ff6b35; background: rgba(255,107,53,0.1); }
-  .fps-avg-col { color: var(--accent); background: rgba(0,229,160,0.1); }
-
-  .fps-bar-wrap {
-    width: 80px;
-    height: 5px;
-    background: var(--bg3);
-    border-radius: 99px;
-    overflow: hidden;
-    display: inline-block;
-    vertical-align: middle;
-    margin-left: 8px;
-  }
-
-  .fps-bar-fill {
-    height: 100%;
-    border-radius: 99px;
-    background: linear-gradient(90deg, var(--accent3), var(--accent));
-  }
-
-  .fps-summary {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
-    margin-top: 1.25rem;
-    padding-top: 1rem;
-    border-top: 1px solid var(--border);
-  }
-
-  .fps-sum-item {
-    text-align: center;
-    background: var(--bg3);
-    border-radius: 10px;
-    padding: 0.75rem 0.5rem;
-  }
-
-  .fps-sum-val {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.8rem;
-    line-height: 1;
-    letter-spacing: 0.02em;
-  }
-
-  .fps-sum-lbl {
-    font-size: 10px;
-    color: var(--muted);
-    font-family: 'JetBrains Mono', monospace;
-    margin-top: 3px;
-  }
-
-  /* ── VIDEO LINKS ── */
-  .videos-card {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    padding: 1.5rem;
-    margin-bottom: 1.25rem;
-  }
-
-  .video-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-  }
-
-  .video-link {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    padding: 0.9rem;
-    background: var(--bg3);
-    border: 1px solid var(--border2);
-    border-radius: 12px;
-    text-decoration: none;
-    transition: border-color 0.15s, background 0.15s;
-    cursor: pointer;
-  }
-
-  .video-link:hover {
-    border-color: var(--accent2);
-    background: rgba(0,184,255,0.05);
-  }
-
-  .video-thumb {
-    width: 48px;
-    height: 34px;
-    background: var(--bg4);
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    flex-shrink: 0;
-    border: 1px solid var(--border);
-  }
-
-  .video-info { flex: 1; overflow: hidden; }
-
-  .video-title {
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text);
-    margin-bottom: 3px;
-    line-height: 1.3;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .video-meta {
-    font-size: 10px;
-    color: var(--muted2);
-    font-family: 'JetBrains Mono', monospace;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    flex-wrap: wrap;
-  }
-
-  .video-tag {
-    background: rgba(0,229,160,0.1);
-    color: var(--accent);
-    padding: 1px 6px;
-    border-radius: 4px;
-    font-size: 9px;
-    letter-spacing: 0.06em;
-  }
-
-  /* ── NEWS ── */
-  .news-card {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    padding: 1.5rem;
-    margin-bottom: 1.25rem;
-  }
-
-  .news-list { display: flex; flex-direction: column; gap: 10px; }
-
-  .news-item {
-    display: flex;
-    gap: 12px;
-    padding: 0.9rem;
-    background: var(--bg3);
-    border: 1px solid var(--border2);
-    border-radius: 12px;
-    text-decoration: none;
-    transition: border-color 0.15s;
-    cursor: pointer;
-  }
-
-  .news-item:hover { border-color: var(--accent3); }
-
-  .news-badge-wrap { flex-shrink: 0; padding-top: 2px; }
-
-  .news-cat {
-    display: inline-block;
-    padding: 2px 8px;
-    border-radius: 4px;
-    font-size: 9px;
-    font-family: 'JetBrains Mono', monospace;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    font-weight: 700;
-  }
-
-  .news-cat.gpu { background: rgba(124,92,252,0.2); color: #c4b0ff; }
-  .news-cat.cpu { background: rgba(0,184,255,0.15); color: var(--accent2); }
-  .news-cat.game { background: rgba(0,229,160,0.12); color: var(--accent); }
-  .news-cat.driver { background: rgba(255,107,53,0.15); color: var(--accent4); }
-
-  .news-content { flex: 1; }
-
-  .news-title {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text);
-    margin-bottom: 4px;
-    line-height: 1.35;
-  }
-
-  .news-desc {
-    font-size: 11px;
-    color: var(--muted2);
-    line-height: 1.5;
-  }
-
-  .news-date {
-    font-size: 10px;
-    color: var(--muted);
-    font-family: 'JetBrains Mono', monospace;
-    margin-top: 5px;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-  }
-
-  /* ── SPEC CARD ── */
-  .spec-card {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 1.5rem;
-    margin-bottom: 1.25rem;
-  }
-
-  .spec-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.25rem;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  .spec-title-lbl {
-    font-size: 10px;
-    color: var(--muted);
-    font-family: 'JetBrains Mono', monospace;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-bottom: 4px;
-  }
-
-  .spec-name {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.5rem;
-    letter-spacing: 0.05em;
-    color: var(--accent);
-  }
-
-  .spec-price-block { text-align: right; }
-
-  .spec-price {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 2rem;
-    color: var(--text);
-    letter-spacing: 0.02em;
-    line-height: 1;
-  }
-
-  .spec-price-lbl {
-    font-size: 10px;
-    color: var(--muted);
-    font-family: 'JetBrains Mono', monospace;
-    margin-top: 2px;
-  }
-
-  .spec-table {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 6px 20px;
-  }
-
-  .spec-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 12px;
-    padding: 6px 0;
-    border-bottom: 1px solid var(--border);
-    gap: 12px;
-  }
-
-  .spec-key {
-    color: var(--muted2);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    flex-shrink: 0;
-  }
-
-  .spec-val {
-    color: var(--text);
-    font-weight: 500;
-    text-align: right;
-    font-size: 12px;
-  }
-
-  /* ── ORDER INFO ── */
-  .order-card {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 1.25rem 1.5rem;
-    margin-bottom: 1.25rem;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px 16px;
-  }
-
-  .order-row {
-    display: flex;
-    justify-content: space-between;
-    font-size: 12px;
-    padding: 5px 0;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .order-key { color: var(--muted2); font-family: 'JetBrains Mono', monospace; font-size: 11px; }
-  .order-val { color: var(--text); font-weight: 500; text-align: right; }
-
-  /* ── STATUS TIMELINE ── */
-  .timeline-card {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 1.5rem;
-    margin-bottom: 1.25rem;
-  }
-
-  .timeline { display: flex; flex-direction: column; gap: 0; }
-
-  .tl-item {
-    display: flex;
-    gap: 16px;
-    position: relative;
-  }
-
-  .tl-item:not(:last-child)::before {
-    content: '';
-    position: absolute;
-    left: 11px;
-    top: 28px;
-    bottom: -12px;
-    width: 2px;
-    background: var(--border2);
-  }
-
-  .tl-dot-wrap { flex-shrink: 0; padding-top: 6px; }
-
-  .tl-dot {
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 10px;
-    border: 2px solid;
-  }
-
-  .tl-dot.done { background: rgba(0,229,160,0.15); border-color: var(--accent); color: var(--accent); }
-  .tl-dot.active { background: rgba(0,184,255,0.15); border-color: var(--accent2); color: var(--accent2); animation: tlpulse 2s ease-in-out infinite; }
-  .tl-dot.pending { background: var(--bg3); border-color: var(--border2); color: var(--muted); }
-
-  @keyframes tlpulse {
-    0%,100% { box-shadow: 0 0 0 0 rgba(0,184,255,0.4); }
-    50% { box-shadow: 0 0 0 6px rgba(0,184,255,0); }
-  }
-
-  .tl-content { padding: 4px 0 20px; }
-
-  .tl-title {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text);
-    margin-bottom: 2px;
-  }
-
-  .tl-title.active-tl { color: var(--accent2); }
-
-  .tl-date {
-    font-size: 11px;
-    color: var(--muted2);
-    font-family: 'JetBrains Mono', monospace;
-  }
-
-  /* ── ARRIVED ── */
-  .arrived-banner {
-    display: none;
-    background: rgba(0,229,160,0.08);
-    border: 2px solid rgba(0,229,160,0.5);
-    border-radius: 16px;
-    padding: 2rem;
-    text-align: center;
-    margin-bottom: 1.5rem;
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 2.5rem;
-    color: var(--accent);
-    letter-spacing: 0.06em;
-    text-shadow: 0 0 30px rgba(0,229,160,0.4);
-  }
-
-  /* ── FOOTER ── */
-  .footer {
-    text-align: center;
-    margin-top: 2.5rem;
-    font-size: 11px;
-    color: var(--muted);
-    font-family: 'JetBrains Mono', monospace;
-    line-height: 2;
-  }
-
-  /* SCROLLBAR */
-  ::-webkit-scrollbar { width: 6px; height: 6px; }
-  ::-webkit-scrollbar-track { background: var(--bg2); }
-  ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 99px; }
-  ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
-
-  /* RESPONSIVE */
-  @media (max-width: 600px) {
-    .countdown-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
-    .calendars { grid-template-columns: 1fr; }
-    .stats-3col { grid-template-columns: 1fr; }
-    .video-grid { grid-template-columns: 1fr; }
-    .spec-table { grid-template-columns: 1fr; }
-    .order-card { grid-template-columns: 1fr; }
-    .fps-summary { grid-template-columns: repeat(2, 1fr); }
-    .prog-meta { grid-template-columns: 1fr; }
-    .one-pct-grid { grid-template-columns: 1fr; }
-    .seconds-ticker { justify-content: center; }
-    .elapsed-hero { flex-direction: column; align-items: flex-start; }
-    .elapsed-hero-right { align-items: flex-start; flex-direction: row; flex-wrap: wrap; }
-  }
+:root {
+  --bg:         #0a0c10;
+  --surface:    #10141c;
+  --surface2:   #161b26;
+  --border:     #1e2636;
+  --accent:     #00e5ff;
+  --accent2:    #ff6b35;
+  --accent3:    #7fff6b;
+  --accent4:    #c87dff;
+  --text:       #d0d8e8;
+  --text-dim:   #5a6478;
+  --text-bright:#eef2ff;
+  --warn:       #ffb347;
+  --mono:       'Share Tech Mono', monospace;
+  --sans:       'Noto Sans JP', sans-serif;
+  --display:    'Bebas Neue', sans-serif;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--sans);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* scanlines */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.025) 2px,rgba(0,0,0,0.025) 4px);
+  pointer-events:none;z-index:999;
+}
+
+/* ── HEADER ── */
+.header{
+  background:linear-gradient(135deg,#0d1520 0%,#0a0c10 100%);
+  border-bottom:1px solid var(--border);
+  padding:18px 20px 14px;
+  position:sticky;top:0;z-index:100;
+  backdrop-filter:blur(12px);
+}
+.header-top{display:flex;align-items:center;gap:12px;margin-bottom:5px;}
+.live-badge{
+  background:var(--accent2);color:#fff;
+  font-family:var(--mono);font-size:10px;font-weight:bold;
+  padding:3px 8px;border-radius:3px;letter-spacing:1px;
+  animation:pulse-badge 2s ease-in-out infinite;
+  display:flex;align-items:center;gap:5px;
+}
+.live-dot{width:6px;height:6px;background:#fff;border-radius:50%;animation:blink 1s ease-in-out infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+@keyframes pulse-badge{0%,100%{box-shadow:0 0 8px rgba(255,107,53,.4)}50%{box-shadow:0 0 16px rgba(255,107,53,.8)}}
+
+.shop-name{font-family:var(--display);font-size:22px;letter-spacing:3px;color:var(--accent);text-shadow:0 0 20px rgba(0,229,255,.4);}
+.order-meta{font-family:var(--mono);font-size:11px;color:var(--text-dim);letter-spacing:.8px;}
+.order-meta span{color:var(--text);}
+.clock-live{font-family:var(--mono);font-size:11px;color:var(--accent);margin-top:3px;letter-spacing:.5px;}
+
+.main{padding:18px 16px;max-width:700px;margin:0 auto;}
+
+/* ── NOTICE BANNER ── */
+.notice-banner{
+  background:linear-gradient(135deg,rgba(255,107,53,.1),rgba(255,179,71,.06));
+  border:1px solid rgba(255,107,53,.3);
+  border-left:3px solid var(--accent2);
+  border-radius:8px;padding:14px 16px;margin-bottom:18px;
+}
+.notice-label{font-family:var(--mono);font-size:10px;color:var(--accent2);letter-spacing:2px;margin-bottom:8px;}
+.notice-text{font-size:12px;color:var(--text);line-height:1.8;}
+.notice-date{color:var(--warn);font-weight:700;}
+.notice-update{font-family:var(--mono);font-size:10px;color:var(--text-dim);margin-top:8px;letter-spacing:.5px;}
+
+/* ── CARD ── */
+.card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:10px;padding:18px;margin-bottom:14px;
+  position:relative;overflow:hidden;
+}
+.card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:.25;
+}
+.card-title{
+  font-family:var(--mono);font-size:11px;color:var(--accent);
+  letter-spacing:2px;text-transform:uppercase;margin-bottom:14px;
+  display:flex;align-items:center;gap:8px;
+}
+.card-title::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent);}
+
+/* ── ELAPSED ── */
+.elapsed-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px;}
+.elapsed-unit{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:12px 6px;text-align:center;}
+.elapsed-num{font-family:var(--mono);font-size:28px;color:var(--text-bright);line-height:1;margin-bottom:4px;text-shadow:0 0 12px rgba(0,229,255,.25);}
+.elapsed-label{font-size:10px;color:var(--text-dim);letter-spacing:1px;}
+.elapsed-mini-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.elapsed-mini{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:8px;text-align:center;}
+.elapsed-mini-val{font-family:var(--mono);font-size:13px;color:var(--accent);font-weight:700;display:block;}
+.elapsed-mini-lbl{font-size:9px;color:var(--text-dim);letter-spacing:.5px;margin-top:2px;display:block;}
+
+/* ── COUNTDOWN ── */
+.countdown-tabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;}
+.countdown-tab{
+  flex:1;min-width:70px;padding:7px 4px;border-radius:6px;
+  border:1px solid var(--border);background:var(--surface2);
+  text-align:center;cursor:pointer;transition:all .2s;
+  font-size:10px;color:var(--text-dim);font-family:var(--mono);
+}
+.countdown-tab.active{border-color:var(--accent);color:var(--accent);background:rgba(0,229,255,.06);box-shadow:0 0 10px rgba(0,229,255,.1);}
+.tab-date{font-size:13px;font-weight:700;font-family:var(--display);letter-spacing:1px;}
+.tab-label{font-size:9px;margin-top:2px;letter-spacing:.5px;}
+
+.countdown-display{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:10px;}
+.cd-unit{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:16px 6px 10px;text-align:center;transition:border-color .3s;}
+.cd-unit.highlight{border-color:rgba(0,229,255,.35);}
+.cd-num{font-family:var(--display);font-size:42px;color:var(--accent);line-height:1;text-shadow:0 0 20px rgba(0,229,255,.4);}
+.cd-label{font-size:10px;color:var(--text-dim);letter-spacing:1px;margin-top:4px;}
+.cd-target-label{
+  font-family:var(--mono);font-size:11px;color:var(--text-dim);
+  text-align:center;padding:8px 12px;background:var(--surface2);
+  border-radius:6px;border:1px solid var(--border);margin-bottom:10px;
+}
+.cd-target-label strong{color:var(--accent);}
+
+.cd-note{
+  background:var(--surface2);border:1px solid var(--border);border-radius:6px;
+  padding:10px 12px;font-family:var(--mono);font-size:11px;color:var(--text-dim);
+  line-height:1.9;
+}
+.cd-note .hl{color:var(--accent);}
+.cd-note .hl2{color:var(--accent);}
+.cd-note .hl3{color:var(--warn);}
+
+/* ── PROGRESS ── */
+.progress-header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;}
+.progress-pct{font-family:var(--display);font-size:36px;color:var(--accent3);text-shadow:0 0 16px rgba(127,255,107,.4);}
+.progress-sub{font-size:11px;color:var(--text-dim);font-family:var(--mono);}
+.progress-bar-wrap{background:var(--surface2);border-radius:6px;height:10px;overflow:hidden;margin-bottom:8px;border:1px solid var(--border);}
+.progress-bar-fill{
+  height:100%;background:linear-gradient(90deg,var(--accent3),var(--accent));
+  border-radius:6px;transition:width 1s linear;box-shadow:0 0 8px rgba(0,229,255,.3);position:relative;
+}
+.progress-bar-fill::after{
+  content:'';position:absolute;right:0;top:0;bottom:0;width:4px;
+  background:#fff;opacity:.5;border-radius:2px;animation:shimmer 1.2s ease-in-out infinite;
+}
+@keyframes shimmer{0%,100%{opacity:.5}50%{opacity:1}}
+
+.progress-milestones{
+  display:flex;justify-content:space-between;
+  font-family:var(--mono);font-size:9px;color:var(--text-dim);margin-bottom:12px;
+}
+.progress-milestones .done{color:var(--accent3);}
+.progress-milestones .cur{color:var(--warn);}
+
+.prog-meta-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px;}
+.prog-meta-item{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:9px;text-align:center;}
+.prog-meta-val{font-family:var(--mono);font-size:12px;color:var(--accent);font-weight:700;display:block;}
+.prog-meta-lbl{font-size:9px;color:var(--text-dim);margin-top:2px;display:block;letter-spacing:.5px;}
+
+.prog-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.prog-sum-item{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:10px 8px;text-align:center;}
+.prog-sum-val{font-family:var(--display);font-size:22px;line-height:1;}
+.prog-sum-lbl{font-size:9px;color:var(--text-dim);font-family:var(--mono);margin-top:3px;letter-spacing:.5px;}
+
+/* ── 1% TIMELINE ── */
+.one-pct-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.one-pct-item{
+  display:flex;justify-content:space-between;align-items:flex-start;
+  padding:6px 10px;background:var(--surface2);border-radius:7px;
+  font-family:var(--mono);font-size:11px;gap:8px;
+  border:1px solid transparent;transition:border-color .3s;
+}
+.one-pct-item.current-pct{border-color:rgba(0,229,255,.4);background:rgba(0,229,255,.04);}
+.one-pct-item .key{color:var(--text-dim);flex-shrink:0;}
+.one-pct-item .val{font-weight:700;text-align:right;}
+.one-pct-item .val.future{color:var(--accent);}
+.one-pct-item .val.past{color:var(--text-dim);text-decoration:line-through;}
+.one-pct-item .val.now{color:var(--accent3);}
+
+/* ── STATS ── */
+.stats-3col{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.stat-card{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center;position:relative;overflow:hidden;}
+.stat-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;}
+.stat-card.elapsed::after{background:linear-gradient(90deg,transparent,var(--accent4),transparent);}
+.stat-card.min-arr::after{background:linear-gradient(90deg,transparent,var(--accent),transparent);}
+.stat-card.avg-arr::after{background:linear-gradient(90deg,transparent,var(--accent3),transparent);}
+.stat-main-val{font-family:var(--display);font-size:28px;line-height:1;letter-spacing:.02em;}
+.stat-main-unit{font-family:var(--mono);font-size:11px;margin-left:2px;opacity:.7;}
+.stat-sub{font-family:var(--mono);font-size:10px;color:var(--text-dim);margin-top:4px;line-height:1.5;min-height:2.5em;}
+.stat-lbl{font-size:9px;color:var(--text-dim);font-family:var(--mono);letter-spacing:.5px;margin-top:5px;}
+
+/* ── STATUS TIMELINE ── */
+.status-steps{display:flex;flex-direction:column;gap:0;}
+.status-step{display:flex;align-items:flex-start;gap:14px;padding:10px 0;position:relative;}
+.status-step:not(:last-child)::after{
+  content:'';position:absolute;left:15px;top:40px;bottom:0;
+  width:1px;background:var(--border);
+}
+.step-icon{
+  width:32px;height:32px;border-radius:50%;border:2px solid var(--border);
+  display:flex;align-items:center;justify-content:center;font-size:13px;
+  flex-shrink:0;background:var(--surface2);position:relative;z-index:1;
+}
+.step-icon.done{border-color:var(--accent3);background:rgba(127,255,107,.1);color:var(--accent3);}
+.step-icon.current{border-color:var(--warn);background:rgba(255,179,71,.1);animation:pulse-step 2s ease-in-out infinite;}
+.step-icon.pending{opacity:.4;}
+@keyframes pulse-step{0%,100%{box-shadow:0 0 0 0 rgba(255,179,71,.4)}50%{box-shadow:0 0 0 6px rgba(255,179,71,0)}}
+.step-content{flex:1;padding-top:4px;}
+.step-title{font-size:13px;font-weight:700;color:var(--text-bright);margin-bottom:3px;}
+.step-title.active-step{color:var(--warn);}
+.step-detail{font-size:11px;color:var(--text-dim);line-height:1.6;font-family:var(--mono);}
+.step-detail .hl{color:var(--warn);}
+.step-detail .ok{color:var(--accent3);}
+
+/* ── ORDER DETAILS ── */
+.detail-table{width:100%;}
+.detail-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:8px 0;border-bottom:1px solid var(--border);font-size:12px;
+}
+.detail-row:last-child{border-bottom:none;}
+.detail-key{color:var(--text-dim);font-family:var(--mono);font-size:11px;}
+.detail-val{color:var(--text-bright);font-weight:500;text-align:right;max-width:65%;}
+.detail-val.mono{font-family:var(--mono);font-size:10px;}
+.detail-val.green{color:var(--accent3);}
+.detail-val.red{color:#ff5555;}
+.detail-val.price{color:var(--accent);font-family:var(--display);font-size:18px;letter-spacing:1px;}
+.status-badge{display:inline-block;padding:3px 10px;border-radius:20px;font-family:var(--mono);font-size:10px;letter-spacing:1px;font-weight:700;}
+.badge-wip{background:rgba(255,179,71,.12);border:1px solid var(--warn);color:var(--warn);}
+
+/* ── CALENDAR ── */
+.cal-wrap{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.cal{background:var(--surface2);border:1px solid var(--border);border-radius:8px;overflow:hidden;}
+.cal-header{background:rgba(0,229,255,.05);border-bottom:1px solid var(--border);padding:8px 12px;font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:2px;text-align:center;}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);}
+.cal-dow{padding:5px 2px;text-align:center;font-family:var(--mono);font-size:9px;color:var(--text-dim);letter-spacing:.5px;}
+.cal-day{padding:5px 2px;text-align:center;font-family:var(--mono);font-size:10px;color:var(--text-dim);}
+.cal-day.order-d{background:rgba(0,229,255,.15);color:var(--accent);font-weight:700;border-radius:4px;}
+.cal-day.today-d{background:rgba(255,107,53,.2);color:var(--accent2);font-weight:700;border-radius:4px;}
+.cal-day.ship-d{background:rgba(255,179,71,.18);color:var(--warn);border-radius:4px;font-weight:700;}
+.cal-day.arrive-range{background:rgba(127,255,107,.07);color:var(--text);border-radius:4px;}
+.cal-day.arrive-best{background:rgba(127,255,107,.22);color:var(--accent3);font-weight:700;border-radius:4px;}
+.cal-legend{display:flex;flex-wrap:wrap;gap:10px;padding:10px 12px;font-size:10px;color:var(--text-dim);font-family:var(--mono);border-top:1px solid var(--border);}
+.leg-dot{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:4px;vertical-align:middle;}
+
+/* ── SPEC ── */
+.spec-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.spec-item{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:10px 12px;}
+.spec-item.full{grid-column:1/-1;}
+.spec-key{font-size:10px;color:var(--text-dim);letter-spacing:1px;margin-bottom:4px;font-family:var(--mono);}
+.spec-val{font-size:12px;color:var(--text-bright);font-weight:600;}
+.spec-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;flex-wrap:wrap;gap:8px;}
+.spec-model{font-family:var(--display);font-size:18px;letter-spacing:2px;color:var(--accent);}
+.spec-price{font-family:var(--display);font-size:26px;color:var(--text-bright);line-height:1;}
+.spec-price-lbl{font-size:10px;color:var(--text-dim);font-family:var(--mono);margin-top:2px;}
+
+/* ── BENCHMARK ── */
+.bench-header-row{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;flex-wrap:wrap;gap:8px;}
+.bench-title{font-family:var(--display);font-size:16px;letter-spacing:2px;color:var(--text-bright);}
+.bench-sub{font-size:10px;color:var(--text-dim);font-family:var(--mono);margin-top:3px;}
+.bench-avg-num{font-family:var(--display);font-size:30px;color:var(--accent);line-height:1;}
+.bench-avg-lbl{font-size:10px;color:var(--text-dim);font-family:var(--mono);text-align:right;}
+.bench-table{width:100%;border-collapse:collapse;font-size:12px;min-width:440px;}
+.bench-table th{font-family:var(--mono);font-size:10px;color:var(--text-dim);text-align:right;padding:6px 8px;border-bottom:1px solid var(--border);letter-spacing:1px;font-weight:400;}
+.bench-table th:first-child{text-align:left;}
+.bench-table td{padding:7px 8px;border-bottom:1px solid rgba(30,38,54,.5);text-align:right;}
+.bench-table td:first-child{text-align:left;color:var(--text-bright);font-weight:500;}
+.bench-table tr:last-child td{border-bottom:none;}
+.bench-table tr.avg-row{border-top:1px solid var(--border);}
+.fps-val{font-family:var(--mono);}
+.fps-hi{color:var(--accent3);}
+.fps-mi{color:var(--accent);}
+.fps-lo{color:var(--warn);}
+.fps-avg{color:var(--accent);font-weight:700;}
+.fps-bar{display:inline-block;height:4px;border-radius:2px;margin-left:4px;vertical-align:middle;opacity:.4;}
+.bench-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px;padding-top:12px;border-top:1px solid var(--border);}
+.bench-sum-item{background:var(--surface2);border-radius:6px;padding:8px;text-align:center;}
+.bench-sum-val{font-family:var(--display);font-size:22px;line-height:1;}
+.bench-sum-lbl{font-size:9px;color:var(--text-dim);font-family:var(--mono);margin-top:3px;}
+
+/* ── VIDEO LINKS ── */
+.video-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;}
+.video-link{
+  display:flex;align-items:flex-start;gap:10px;padding:10px;
+  background:var(--surface2);border:1px solid var(--border);border-radius:8px;
+  text-decoration:none;transition:border-color .15s;cursor:pointer;
+}
+.video-link:hover{border-color:var(--accent);}
+.video-thumb{width:44px;height:32px;background:rgba(0,229,255,.08);border:1px solid var(--border);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.video-info{flex:1;overflow:hidden;}
+.video-title{font-size:11px;font-weight:600;color:var(--text-bright);margin-bottom:4px;line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.video-meta{font-size:10px;color:var(--text-dim);font-family:var(--mono);display:flex;align-items:center;gap:5px;flex-wrap:wrap;}
+.video-tag{background:rgba(0,229,255,.1);color:var(--accent);padding:1px 6px;border-radius:3px;font-size:9px;letter-spacing:.5px;}
+
+/* ── NEWS ── */
+.news-list{display:flex;flex-direction:column;gap:8px;}
+.news-item{display:flex;gap:12px;padding:10px 12px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;transition:border-color .15s;cursor:pointer;}
+.news-item:hover{border-color:var(--accent4);}
+.news-cat{display:inline-block;padding:2px 7px;border-radius:3px;font-size:9px;font-family:var(--mono);letter-spacing:.5px;text-transform:uppercase;font-weight:700;}
+.news-cat.gpu{background:rgba(200,125,255,.2);color:var(--accent4);}
+.news-cat.cpu{background:rgba(0,229,255,.12);color:var(--accent);}
+.news-cat.game{background:rgba(127,255,107,.1);color:var(--accent3);}
+.news-cat.driver{background:rgba(255,107,53,.12);color:var(--accent2);}
+.news-content{flex:1;}
+.news-title{font-size:12px;font-weight:700;color:var(--text-bright);margin-bottom:4px;line-height:1.35;}
+.news-desc{font-size:11px;color:var(--text-dim);line-height:1.5;}
+.news-date{font-size:10px;color:var(--text-dim);font-family:var(--mono);margin-top:5px;}
+
+/* ── FOOTER ── */
+.footer{margin-top:24px;padding:16px;text-align:center;font-family:var(--mono);font-size:10px;color:var(--text-dim);border-top:1px solid var(--border);letter-spacing:1px;line-height:1.9;}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:520px){
+  .elapsed-grid{grid-template-columns:repeat(2,1fr);}
+  .countdown-display{grid-template-columns:repeat(2,1fr);}
+  .cal-wrap{grid-template-columns:1fr;}
+  .spec-grid{grid-template-columns:1fr;}
+  .video-grid{grid-template-columns:1fr;}
+  .bench-summary{grid-template-columns:repeat(2,1fr);}
+  .stats-3col{grid-template-columns:1fr;}
+  .one-pct-grid{grid-template-columns:1fr;}
+  .prog-summary{grid-template-columns:repeat(3,1fr);}
+}
 </style>
 </head>
 <body>
-<div class="container">
 
-  <!-- HEADER -->
-  <div class="header">
-    <div class="badge"><span class="live-dot"></span>LIVE TRACKING ACTIVE · 1秒更新</div>
-    <h1 class="main-title">PC<span class="hl">到着</span>まで</h1>
-    <p class="subtitle">BANDAL GAMING — ORDER #P186336049671509345 — RYZEN 7 5700X / RX 7600</p>
+<!-- HEADER -->
+<div class="header">
+  <div class="header-top">
+    <div class="live-badge"><div class="live-dot"></div> LIVE</div>
+    <div class="shop-name">BANDAL GAMING</div>
   </div>
-
-  <!-- CLOCK BAR -->
-  <div class="clock-bar">
-    <div class="live-indicator"><span class="live-dot"></span><span id="live-clock-text">—</span></div>
-    <div style="font-size:10px;color:var(--muted);">毎秒リアルタイム更新中</div>
-  </div>
-
-  <!-- ARRIVED -->
-  <div class="arrived-banner" id="arrived-banner">🎉 PCが届いているはずです！おめでとう！🎉</div>
-
-  <!-- ELAPSED HERO -->
-  <div class="sec-label">⏱️ 注文からの経過時間</div>
-  <div class="elapsed-hero">
-    <div class="elapsed-hero-icon">📦</div>
-    <div class="elapsed-hero-body">
-      <div class="elapsed-hero-label">注文日 2026/04/24 22:57:27 からの経過</div>
-      <div class="elapsed-hero-num" id="elapsed-hero-num">0日 00時間00分00秒</div>
-      <div class="elapsed-hero-sub" id="elapsed-hero-sub">—</div>
-    </div>
-    <div class="elapsed-hero-right">
-      <div class="elapsed-mini">
-        <div class="elapsed-mini-val" id="elapsed-hours-total">—</div>
-        <div class="elapsed-mini-lbl">総経過時間（h）</div>
-      </div>
-      <div class="elapsed-mini">
-        <div class="elapsed-mini-val" id="elapsed-mins-total">—</div>
-        <div class="elapsed-mini-lbl">総経過分数</div>
-      </div>
-      <div class="elapsed-mini">
-        <div class="elapsed-mini-val" id="elapsed-secs-total">—</div>
-        <div class="elapsed-mini-lbl">総経過秒数</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- LIVE SECONDS TICKER -->
-  <div class="seconds-ticker">
-    <div class="secs-block">
-      <div class="secs-num" id="sk-days" style="color:var(--accent3);">—</div>
-      <div class="secs-lbl">日</div>
-    </div>
-    <div class="secs-divider">:</div>
-    <div class="secs-block">
-      <div class="secs-num" id="sk-hours" style="color:var(--accent2);">—</div>
-      <div class="secs-lbl">時間</div>
-    </div>
-    <div class="secs-divider">:</div>
-    <div class="secs-block">
-      <div class="secs-num" id="sk-mins" style="color:var(--accent);">—</div>
-      <div class="secs-lbl">分</div>
-    </div>
-    <div class="secs-divider">:</div>
-    <div class="secs-block">
-      <div class="secs-num" id="sk-secs" style="color:#ff9f43;">—</div>
-      <div class="secs-lbl">秒</div>
-    </div>
-    <div style="font-size:10px;color:var(--muted);font-family:'JetBrains Mono',monospace;text-align:center;">
-      ← 最短到着（5/5）<br>までのカウントダウン
-    </div>
-  </div>
-
-  <!-- COUNTDOWN TABS -->
-  <div class="sec-label">🕒 到着カウントダウン</div>
-  <div class="countdown-card">
-    <div class="cd-tabs">
-      <div class="cd-tab active" onclick="setTarget('min')" id="tab-min">最短 5/5</div>
-      <div class="cd-tab" onclick="setTarget('avg')" id="tab-avg">目安 5/8</div>
-      <div class="cd-tab" onclick="setTarget('max')" id="tab-max">最遅 5/12</div>
-    </div>
-    <div class="cd-title" id="cd-target-label">2026年5月5日 00:00:00 まで</div>
-    <div class="countdown-grid">
-      <div class="cd-unit"><span class="cd-num" id="cd-days">00</span><span class="cd-lbl">日</span></div>
-      <div class="cd-unit"><span class="cd-num" id="cd-hours">00</span><span class="cd-lbl">時間</span></div>
-      <div class="cd-unit"><span class="cd-num" id="cd-mins">00</span><span class="cd-lbl">分</span></div>
-      <div class="cd-unit"><span class="cd-num" id="cd-secs">00</span><span class="cd-lbl">秒</span></div>
-    </div>
-    <div class="cd-note">
-      到着予定期間: <span>5月5日〜5月12日</span>　最有力: <span>5月8日</span><br>
-      最短到着（5/5）まで: <span id="cd-detail-min">—</span><br>
-      目安到着（5/8）まで: <span id="cd-detail-avg">—</span><br>
-      最遅到着（5/12）まで: <span class="hl3" id="cd-detail-max">—</span>
-    </div>
-  </div>
-
-  <!-- PROGRESS -->
-  <div class="sec-label">📊 製作・配送進捗</div>
-  <div class="progress-card">
-    <div class="prog-header">
-      <span class="prog-label">注文日 4/24 → 目安到着 5/8</span>
-      <span class="prog-pct" id="prog-pct-text">0%</span>
-    </div>
-    <div class="prog-track">
-      <div class="prog-fill" id="prog-fill" style="width:0%"></div>
-    </div>
-    <div class="prog-dates">
-      <span>📦 注文: 2026/04/24 22:57</span>
-      <span>🏠 目安: 2026/05/08 12:00</span>
-    </div>
-    <div class="prog-meta">
-      <div class="prog-meta-item">
-        <span class="prog-meta-val" id="prog-next1pct">—</span>
-        <span class="prog-meta-lbl">次の1%まで</span>
-      </div>
-      <div class="prog-meta-item">
-        <span class="prog-meta-val" id="prog-1pct-duration">—</span>
-        <span class="prog-meta-lbl">1%あたりの時間</span>
-      </div>
-      <div class="prog-meta-item">
-        <span class="prog-meta-val" id="prog-remaining-pct">—</span>
-        <span class="prog-meta-lbl">残りパーセント</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- 1% BREAKDOWN -->
-  <div class="one-pct-section">
-    <div class="one-pct-title">⏱️ 進捗 <span class="hl">1%単位</span> のタイムライン（目安5/8基準）</div>
-    <div class="one-pct-grid" id="one-pct-grid"><!-- JS --></div>
-  </div>
-
-  <!-- STATS -->
-  <div class="sec-label">📈 詳細統計</div>
-  <div class="stats-3col">
-    <div class="stat-card-v2 elapsed">
-      <div class="stat-main-val" id="stat-elapsed-days" style="color:var(--accent3);">0<span class="stat-main-unit">日</span></div>
-      <div class="stat-sub" id="stat-elapsed-sub">—</div>
-      <div class="stat-desc-lbl">注文からの経過</div>
-    </div>
-    <div class="stat-card-v2 min-arr">
-      <div class="stat-main-val" id="stat-min-days" style="color:var(--accent2);">0<span class="stat-main-unit">日</span></div>
-      <div class="stat-sub" id="stat-min-sub">—</div>
-      <div class="stat-desc-lbl">最短到着 (5/5) まで</div>
-    </div>
-    <div class="stat-card-v2 avg-arr">
-      <div class="stat-main-val" id="stat-avg-days" style="color:var(--accent);">0<span class="stat-main-unit">日</span></div>
-      <div class="stat-sub" id="stat-avg-sub">—</div>
-      <div class="stat-desc-lbl">目安到着 (5/8) まで</div>
-    </div>
-  </div>
-
-  <!-- ORDER INFO -->
-  <div class="sec-label">📋 注文詳細</div>
-  <div class="order-card">
-    <div class="order-row"><span class="order-key">注文番号</span><span class="order-val" style="font-family:'JetBrains Mono',monospace;font-size:10px;">P186336049671509345</span></div>
-    <div class="order-row"><span class="order-key">注文日時</span><span class="order-val">2026/04/24 22:57:27</span></div>
-    <div class="order-row"><span class="order-key">ショップ</span><span class="order-val">BANDAL GAMING</span></div>
-    <div class="order-row"><span class="order-key">ステータス</span><span class="order-val" style="color:#00e5a0;">準備中</span></div>
-    <div class="order-row"><span class="order-key">合計金額</span><span class="order-val" style="color:var(--text);font-weight:700;">¥134,300</span></div>
-    <div class="order-row"><span class="order-key">クーポン割引</span><span class="order-val" style="color:#ff9f43;">−¥3,000 (GAMINGCLUB)</span></div>
-    <div class="order-row"><span class="order-key">税率</span><span class="order-val">10%（税込）</span></div>
-    <div class="order-row"><span class="order-key">キャンセル</span><span class="order-val" style="color:#ff6b6b;">不可</span></div>
-  </div>
-
-  <!-- TIMELINE -->
-  <div class="sec-label">🚀 配送ステータス</div>
-  <div class="timeline-card">
-    <div class="timeline">
-      <div class="tl-item">
-        <div class="tl-dot-wrap"><div class="tl-dot done">✓</div></div>
-        <div class="tl-content">
-          <div class="tl-title">注文完了</div>
-          <div class="tl-date">2026年4月24日 22:57:27</div>
-        </div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-dot-wrap"><div class="tl-dot active">◉</div></div>
-        <div class="tl-content">
-          <div class="tl-title active-tl">🔧 PCを製作・準備中</div>
-          <div class="tl-date">現在進行中 — 注文から9日目（5/3時点）</div>
-        </div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-dot-wrap"><div class="tl-dot pending">○</div></div>
-        <div class="tl-content">
-          <div class="tl-title" style="color:var(--muted2);">発送処理</div>
-          <div class="tl-date">5月4日〜5月6日 予定</div>
-        </div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-dot-wrap"><div class="tl-dot pending">○</div></div>
-        <div class="tl-content">
-          <div class="tl-title" style="color:var(--muted2);">配送中</div>
-          <div class="tl-date">5月5日〜5月12日 予定</div>
-        </div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-dot-wrap"><div class="tl-dot pending">🏠</div></div>
-        <div class="tl-content">
-          <div class="tl-title" style="color:var(--muted2);">到着！</div>
-          <div class="tl-date">最有力: 5月8日頃 ／ 遅くとも: 5月12日</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- CALENDAR -->
-  <div class="sec-label">📅 カレンダー</div>
-  <div class="calendars">
-    <div class="cal-card">
-      <div class="cal-month-title">APRIL 2026</div>
-      <div class="cal-grid" id="apr-grid"></div>
-    </div>
-    <div class="cal-card">
-      <div class="cal-month-title">MAY 2026</div>
-      <div class="cal-grid" id="may-grid"></div>
-    </div>
-  </div>
-
-  <div class="legend">
-    <div class="leg-item"><div class="leg-dot" style="background:rgba(124,92,252,0.35);border:1px solid rgba(124,92,252,0.7);"></div>注文日（4/24）</div>
-    <div class="leg-item"><div class="leg-dot" style="background:rgba(0,184,255,0.18);border:1px solid rgba(0,184,255,0.6);"></div>今日（5/3）</div>
-    <div class="leg-item"><div class="leg-dot" style="background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);"></div>到着予定期間（5/5〜5/12）</div>
-    <div class="leg-item"><div class="leg-dot" style="background:rgba(0,229,160,0.28);border:1px solid rgba(0,229,160,0.7);"></div>最有力到着日（5/8）</div>
-  </div>
-
-  <!-- FPS TABLE -->
-  <div class="sec-label">🎮 FPS ベンチマーク（Ryzen 7 5700X + RX 7600 @ 1080p）</div>
-  <div class="fps-card">
-    <div class="fps-header-row">
-      <div class="fps-title-block">
-        <h3>人気10ゲーム FPS 参考値</h3>
-        <p>解像度: 1920×1080 · DirectX12/Vulkan · ドライバー最新版</p>
-      </div>
-      <div class="fps-avg-badge">
-        <span class="fps-avg-num" id="fps-overall-avg">—</span>
-        <span class="fps-avg-lbl">OVERALL AVG FPS</span>
-      </div>
-    </div>
-    <div style="overflow-x:auto;">
-      <table class="fps-table">
-        <thead>
-          <tr>
-            <th>ゲーム</th>
-            <th>低画質<br><span style="color:var(--accent4);font-size:9px;">LOW</span></th>
-            <th>中画質<br><span style="color:var(--accent2);font-size:9px;">MEDIUM</span></th>
-            <th>高画質<br><span style="color:#ff6b35;font-size:9px;">HIGH / EPIC</span></th>
-            <th>平均<br><span style="color:var(--accent);font-size:9px;">AVG</span></th>
-            <th>快適度</th>
-          </tr>
-        </thead>
-        <tbody id="fps-tbody"></tbody>
-      </table>
-    </div>
-    <div class="fps-summary">
-      <div class="fps-sum-item"><div class="fps-sum-val" id="fps-sum-low" style="color:var(--accent4);">—</div><div class="fps-sum-lbl">全LOW平均</div></div>
-      <div class="fps-sum-item"><div class="fps-sum-val" id="fps-sum-mid" style="color:var(--accent2);">—</div><div class="fps-sum-lbl">全MEDIUM平均</div></div>
-      <div class="fps-sum-item"><div class="fps-sum-val" id="fps-sum-high" style="color:var(--accent4);">—</div><div class="fps-sum-lbl">全HIGH平均</div></div>
-      <div class="fps-sum-item"><div class="fps-sum-val" id="fps-sum-overall" style="color:var(--accent);">—</div><div class="fps-sum-lbl">総合平均</div></div>
-    </div>
-  </div>
-
-  <!-- PC SPEC -->
-  <div class="sec-label">🖥️ スペック詳細</div>
-  <div class="spec-card">
-    <div class="spec-header">
-      <div>
-        <div class="spec-title-lbl">PC MODEL</div>
-        <div class="spec-name">RYZEN 7 5700X / RX 7600 BUILD</div>
-      </div>
-      <div class="spec-price-block">
-        <div class="spec-price">¥134,300</div>
-        <div class="spec-price-lbl">税込（割引後）</div>
-      </div>
-    </div>
-    <div class="spec-table">
-      <div class="spec-row"><span class="spec-key">CPU</span><span class="spec-val">AMD Ryzen 7 5700X (8C/16T, 3.4〜4.6GHz)</span></div>
-      <div class="spec-row"><span class="spec-key">GPU</span><span class="spec-val">AMD Radeon RX 7600 (8GB GDDR6)</span></div>
-      <div class="spec-row"><span class="spec-key">RAM</span><span class="spec-val">DDR4 16GB (8GB×2) 3200MHz</span></div>
-      <div class="spec-row"><span class="spec-key">SSD</span><span class="spec-val">500GB NVMe SSD</span></div>
-      <div class="spec-row"><span class="spec-key">OS</span><span class="spec-val">Windows 11 Home</span></div>
-      <div class="spec-row"><span class="spec-key">CPUクーラー</span><span class="spec-val">AMD Wraith リテールクーラー</span></div>
-      <div class="spec-row"><span class="spec-key">ケースファン</span><span class="spec-val">背面ファン 1個</span></div>
-      <div class="spec-row"><span class="spec-key">WiFi</span><span class="spec-val">非搭載（有線LAN接続）</span></div>
-      <div class="spec-row"><span class="spec-key">追加HDD</span><span class="spec-val">なし</span></div>
-      <div class="spec-row"><span class="spec-key">グリス</span><span class="spec-val">標準グリス</span></div>
-      <div class="spec-row"><span class="spec-key">定価</span><span class="spec-val">¥137,300 (税込)</span></div>
-      <div class="spec-row"><span class="spec-key">クーポン</span><span class="spec-val">GAMINGCLUB → −¥3,000</span></div>
-    </div>
-  </div>
-
-  <!-- VIDEO LINKS -->
-  <div class="sec-label">▶️ 同スペックPC プレイ動画（参考）</div>
-  <div class="videos-card">
-    <div style="font-size:11px;color:var(--muted2);margin-bottom:1rem;font-family:'JetBrains Mono',monospace;">
-      ※ Ryzen 7 5700X / RX 7600 の参考動画リンク（YouTube検索結果）
-    </div>
-    <div class="video-grid" id="video-grid"></div>
-  </div>
-
-  <!-- NEWS -->
-  <div class="sec-label">📰 PC関連ニュース</div>
-  <div class="news-card">
-    <div class="news-list" id="news-list"></div>
-  </div>
-
-  <div class="footer">
-    注文日: 2026年4月24日 22:57:27 ·
-    <span id="footer-time">—</span> 現在<br>
-    Powered by BANDAL GAMING TRACKER · 毎秒リアルタイム更新
-  </div>
-
+  <div class="order-meta">ORDER <span>#P186336049671509345</span> &nbsp;·&nbsp; RYZEN 7 5700X / RX 7600 &nbsp;·&nbsp; <span>1秒リアルタイム更新</span></div>
+  <div class="clock-live" id="live-clock">—</div>
 </div>
 
+<div class="main">
+
+<!-- NOTICE BANNER -->
+<div class="notice-banner">
+  <div class="notice-label">📩 BANDAL カスタマーサポート — 最新情報</div>
+  <div class="notice-text">
+    順調に工程が進行中。カレンダー上の営業日換算で、<span class="notice-date">5月20日前後</span>に発送着手の見込みです。<br>
+    出荷直前の最終負荷テストで基準を満たさない場合、再調整が行われる場合があります。<br>
+    明確な発送日は<span class="notice-date">メールの発送連絡</span>にてご確認ください。
+  </div>
+  <div class="notice-update">📅 サポート回答: 2026年5月3日時点 &nbsp;·&nbsp; 当初目安: 10〜14営業日 → 更新後目安: 5/20前後</div>
+</div>
+
+<!-- ELAPSED -->
+<div class="card">
+  <div class="card-title">⏱️ 注文からの経過時間</div>
+  <div class="elapsed-grid">
+    <div class="elapsed-unit"><div class="elapsed-num" id="el-d">00</div><div class="elapsed-label">日</div></div>
+    <div class="elapsed-unit"><div class="elapsed-num" id="el-h">00</div><div class="elapsed-label">時間</div></div>
+    <div class="elapsed-unit"><div class="elapsed-num" id="el-m">00</div><div class="elapsed-label">分</div></div>
+    <div class="elapsed-unit"><div class="elapsed-num" id="el-s">00</div><div class="elapsed-label">秒</div></div>
+  </div>
+  <div class="elapsed-mini-row">
+    <div class="elapsed-mini"><span class="elapsed-mini-val" id="el-total-h">—</span><span class="elapsed-mini-lbl">総経過時間 (h)</span></div>
+    <div class="elapsed-mini"><span class="elapsed-mini-val" id="el-total-m">—</span><span class="elapsed-mini-lbl">総経過分数</span></div>
+    <div class="elapsed-mini"><span class="elapsed-mini-val" id="el-total-s">—</span><span class="elapsed-mini-lbl">総経過秒数</span></div>
+  </div>
+</div>
+
+<!-- COUNTDOWN -->
+<div class="card">
+  <div class="card-title">🕒 到着カウントダウン</div>
+  <div class="countdown-tabs">
+    <div class="countdown-tab active" onclick="setTarget(0,this)"><div class="tab-date">5/20</div><div class="tab-label">発送予定</div></div>
+    <div class="countdown-tab" onclick="setTarget(1,this)"><div class="tab-date">5/23</div><div class="tab-label">最短到着</div></div>
+    <div class="countdown-tab" onclick="setTarget(2,this)"><div class="tab-date">5/25</div><div class="tab-label">目安到着</div></div>
+    <div class="countdown-tab" onclick="setTarget(3,this)"><div class="tab-date">5/27</div><div class="tab-label">最遅到着</div></div>
+  </div>
+  <div class="countdown-display">
+    <div class="cd-unit highlight"><div class="cd-num" id="cd-d">00</div><div class="cd-label">日</div></div>
+    <div class="cd-unit highlight"><div class="cd-num" id="cd-h">00</div><div class="cd-label">時間</div></div>
+    <div class="cd-unit highlight"><div class="cd-num" id="cd-m">00</div><div class="cd-label">分</div></div>
+    <div class="cd-unit highlight"><div class="cd-num" id="cd-s">00</div><div class="cd-label">秒</div></div>
+  </div>
+  <div class="cd-target-label" id="cd-target-label"><strong>2026年5月20日</strong> 発送予定日まで</div>
+  <div class="cd-note">
+    発送予定: <span class="hl">5月20日前後</span>（BANDALサポート回答・営業日換算）<br>
+    到着予定期間: <span class="hl">5月23日〜5月27日</span>　最有力: <span class="hl">5月25日頃</span><br>
+    最短到着（5/23）まで: <span class="hl" id="cd-detail-min">—</span><br>
+    目安到着（5/25）まで: <span class="hl" id="cd-detail-avg">—</span><br>
+    最遅到着（5/27）まで: <span class="hl3" id="cd-detail-max">—</span>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<div class="card">
+  <div class="card-title">📊 製作・発送進捗</div>
+  <div class="progress-header">
+    <div>
+      <div class="progress-pct" id="prog-pct">0%</div>
+      <div class="progress-sub">注文 4/24 → 発送予定 5/20</div>
+    </div>
+    <div style="text-align:right">
+      <div style="font-family:var(--mono);font-size:11px;color:var(--text-dim)" id="prog-remain">残り — %</div>
+    </div>
+  </div>
+  <div class="progress-bar-wrap"><div class="progress-bar-fill" id="prog-bar" style="width:0%"></div></div>
+  <div class="progress-milestones">
+    <span class="done">📦 注文: 4/24</span>
+    <span class="cur">🔧 製作中</span>
+    <span>📤 発送: ~5/20</span>
+    <span>🏠 到着: ~5/25</span>
+  </div>
+  <div class="prog-meta-row">
+    <div class="prog-meta-item"><span class="prog-meta-val" id="prog-next1pct">—</span><span class="prog-meta-lbl">次の1%まで</span></div>
+    <div class="prog-meta-item"><span class="prog-meta-val" id="prog-1pct-dur">—</span><span class="prog-meta-lbl">1%あたりの時間</span></div>
+    <div class="prog-meta-item"><span class="prog-meta-val" id="prog-rem-pct">—</span><span class="prog-meta-lbl">残りパーセント</span></div>
+  </div>
+  <div class="prog-summary">
+    <div class="prog-sum-item"><div class="prog-sum-val" style="color:var(--warn)" id="days-elapsed">0日</div><div class="prog-sum-lbl">経過日数</div></div>
+    <div class="prog-sum-item"><div class="prog-sum-val" style="color:var(--accent)" id="days-to-ship">0日</div><div class="prog-sum-lbl">発送まで</div></div>
+    <div class="prog-sum-item"><div class="prog-sum-val" style="color:var(--accent3)" id="days-to-arrive">0日</div><div class="prog-sum-lbl">到着まで(目安)</div></div>
+  </div>
+</div>
+
+<!-- 1% TIMELINE -->
+<div class="card">
+  <div class="card-title">⏱️ 進捗 1% 単位タイムライン（発送予定 5/20 基準）</div>
+  <div class="one-pct-grid" id="one-pct-grid"></div>
+</div>
+
+<!-- STATS -->
+<div class="card">
+  <div class="card-title">📈 詳細統計</div>
+  <div class="stats-3col">
+    <div class="stat-card elapsed">
+      <div class="stat-main-val" id="stat-elapsed" style="color:var(--accent4);">0<span class="stat-main-unit">日</span></div>
+      <div class="stat-sub" id="stat-elapsed-sub">—</div>
+      <div class="stat-lbl">注文からの経過</div>
+    </div>
+    <div class="stat-card min-arr">
+      <div class="stat-main-val" id="stat-min" style="color:var(--accent);">0<span class="stat-main-unit">日</span></div>
+      <div class="stat-sub" id="stat-min-sub">—</div>
+      <div class="stat-lbl">最短到着 (5/23) まで</div>
+    </div>
+    <div class="stat-card avg-arr">
+      <div class="stat-main-val" id="stat-avg" style="color:var(--accent3);">0<span class="stat-main-unit">日</span></div>
+      <div class="stat-sub" id="stat-avg-sub">—</div>
+      <div class="stat-lbl">目安到着 (5/25) まで</div>
+    </div>
+  </div>
+</div>
+
+<!-- SHIPPING STATUS -->
+<div class="card">
+  <div class="card-title">🚀 配送ステータス</div>
+  <div class="status-steps">
+    <div class="status-step">
+      <div class="step-icon done">✓</div>
+      <div class="step-content">
+        <div class="step-title">注文完了</div>
+        <div class="step-detail"><span class="ok">2026年4月24日 22:57:27</span> — 受注確認済み</div>
+      </div>
+    </div>
+    <div class="status-step">
+      <div class="step-icon current">🔧</div>
+      <div class="step-content">
+        <div class="step-title active-step">PC製作・組み立て中</div>
+        <div class="step-detail">現在進行中 — 順調に工程が進んでいます<br><span class="hl">最終負荷テスト</span>で基準を満たさない場合、追加調整あり</div>
+      </div>
+    </div>
+    <div class="status-step">
+      <div class="step-icon pending">📋</div>
+      <div class="step-content">
+        <div class="step-title" style="color:var(--text-dim)">最終品質チェック・梱包</div>
+        <div class="step-detail"><span class="hl">5月20日前後</span> 予定（サポート回答時点）</div>
+      </div>
+    </div>
+    <div class="status-step">
+      <div class="step-icon pending">📤</div>
+      <div class="step-content">
+        <div class="step-title" style="color:var(--text-dim)">発送処理</div>
+        <div class="step-detail"><span class="hl">5月20日前後</span>〜 着手予定<br>発送後にメールにて追跡番号をお知らせ</div>
+      </div>
+    </div>
+    <div class="status-step">
+      <div class="step-icon pending">🚚</div>
+      <div class="step-content">
+        <div class="step-title" style="color:var(--text-dim)">配送中</div>
+        <div class="step-detail">発送後 <span class="hl">2〜7日程度</span>で到着見込み</div>
+      </div>
+    </div>
+    <div class="status-step">
+      <div class="step-icon pending">🏠</div>
+      <div class="step-content">
+        <div class="step-title" style="color:var(--text-dim)">到着！</div>
+        <div class="step-detail">最短: <span class="ok">5月23日頃</span> &nbsp;|&nbsp; 目安: <span class="hl">5月25日頃</span> &nbsp;|&nbsp; 最遅: 5月27日頃</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CALENDAR -->
+<div class="card">
+  <div class="card-title">📅 カレンダー</div>
+  <div class="cal-wrap">
+    <div class="cal"><div class="cal-header">APRIL 2026</div><div class="cal-grid" id="cal-apr"></div></div>
+    <div class="cal"><div class="cal-header">MAY 2026</div><div class="cal-grid" id="cal-may"></div></div>
+  </div>
+  <div class="cal-legend">
+    <span><span class="leg-dot" style="background:rgba(0,229,255,.5)"></span>注文日 (4/24)</span>
+    <span><span class="leg-dot" style="background:rgba(255,107,53,.6)"></span>今日</span>
+    <span><span class="leg-dot" style="background:rgba(255,179,71,.45)"></span>発送予定 (~5/20)</span>
+    <span><span class="leg-dot" style="background:rgba(127,255,107,.5)"></span>到着目安 (5/25)</span>
+    <span><span class="leg-dot" style="background:rgba(127,255,107,.15)"></span>到着範囲 (5/23〜27)</span>
+  </div>
+</div>
+
+<!-- ORDER DETAILS -->
+<div class="card">
+  <div class="card-title">📋 注文詳細</div>
+  <div class="detail-table">
+    <div class="detail-row"><span class="detail-key">注文番号</span><span class="detail-val mono">P186336049671509345</span></div>
+    <div class="detail-row"><span class="detail-key">注文日時</span><span class="detail-val">2026/04/24 22:57:27</span></div>
+    <div class="detail-row"><span class="detail-key">ショップ</span><span class="detail-val">BANDAL GAMING</span></div>
+    <div class="detail-row"><span class="detail-key">ステータス</span><span class="detail-val"><span class="status-badge badge-wip">🔧 製作・準備中</span></span></div>
+    <div class="detail-row"><span class="detail-key">定価</span><span class="detail-val">¥137,300（税込）</span></div>
+    <div class="detail-row"><span class="detail-key">クーポン</span><span class="detail-val green">−¥3,000 (GAMINGCLUB)</span></div>
+    <div class="detail-row"><span class="detail-key">合計金額</span><span class="detail-val price">¥134,300</span></div>
+    <div class="detail-row"><span class="detail-key">税率</span><span class="detail-val">10%（税込）</span></div>
+    <div class="detail-row"><span class="detail-key">キャンセル</span><span class="detail-val red">不可</span></div>
+  </div>
+</div>
+
+<!-- SPECS -->
+<div class="card">
+  <div class="card-title">🖥️ スペック詳細</div>
+  <div class="spec-header">
+    <div>
+      <div style="font-size:10px;color:var(--text-dim);font-family:var(--mono);letter-spacing:1px;margin-bottom:4px;">PC MODEL</div>
+      <div class="spec-model">RYZEN 7 5700X / RX 7600 BUILD</div>
+    </div>
+    <div style="text-align:right">
+      <div class="spec-price">¥134,300</div>
+      <div class="spec-price-lbl">税込（割引後）</div>
+    </div>
+  </div>
+  <div class="spec-grid">
+    <div class="spec-item"><div class="spec-key">CPU</div><div class="spec-val">AMD Ryzen 7 5700X (8C/16T, 3.4〜4.6GHz)</div></div>
+    <div class="spec-item"><div class="spec-key">GPU</div><div class="spec-val">AMD Radeon RX 7600 (8GB GDDR6)</div></div>
+    <div class="spec-item"><div class="spec-key">RAM</div><div class="spec-val">DDR4 16GB (8GB×2) 3200MHz</div></div>
+    <div class="spec-item"><div class="spec-key">SSD</div><div class="spec-val">500GB NVMe SSD</div></div>
+    <div class="spec-item"><div class="spec-key">OS</div><div class="spec-val">Windows 11 Home</div></div>
+    <div class="spec-item"><div class="spec-key">WiFi</div><div class="spec-val">非搭載（有線LAN）</div></div>
+    <div class="spec-item"><div class="spec-key">CPUクーラー</div><div class="spec-val">AMD Wraith リテールクーラー</div></div>
+    <div class="spec-item"><div class="spec-key">ケースファン</div><div class="spec-val">背面ファン 1個</div></div>
+    <div class="spec-item"><div class="spec-key">追加HDD</div><div class="spec-val">なし</div></div>
+    <div class="spec-item"><div class="spec-key">グリス</div><div class="spec-val">標準グリス</div></div>
+  </div>
+</div>
+
+<!-- BENCHMARK -->
+<div class="card">
+  <div class="card-title">🎮 FPS ベンチマーク（1080P 参考値）</div>
+  <div class="bench-header-row">
+    <div>
+      <div class="bench-title">人気10ゲーム FPS 参考値</div>
+      <div class="bench-sub">1920×1080 · DirectX12/Vulkan · ドライバー最新版</div>
+    </div>
+    <div>
+      <div class="bench-avg-num" id="fps-overall-avg">—</div>
+      <div class="bench-avg-lbl">OVERALL AVG</div>
+    </div>
+  </div>
+  <div style="overflow-x:auto;">
+    <table class="bench-table">
+      <thead>
+        <tr>
+          <th>ゲーム</th>
+          <th>LOW</th>
+          <th>MED</th>
+          <th>HIGH</th>
+          <th>AVG</th>
+          <th>快適度</th>
+        </tr>
+      </thead>
+      <tbody id="bench-body"></tbody>
+    </table>
+  </div>
+  <div class="bench-summary">
+    <div class="bench-sum-item"><div class="bench-sum-val fps-lo" id="fps-sum-low">—</div><div class="bench-sum-lbl">全LOW平均</div></div>
+    <div class="bench-sum-item"><div class="bench-sum-val fps-mi" id="fps-sum-mid">—</div><div class="bench-sum-lbl">全MED平均</div></div>
+    <div class="bench-sum-item"><div class="bench-sum-val fps-hi" id="fps-sum-high">—</div><div class="bench-sum-lbl">全HIGH平均</div></div>
+    <div class="bench-sum-item"><div class="bench-sum-val fps-avg" id="fps-sum-overall">—</div><div class="bench-sum-lbl">総合平均</div></div>
+  </div>
+</div>
+
+<!-- VIDEO LINKS -->
+<div class="card">
+  <div class="card-title">▶️ 同スペックPC プレイ動画（参考）</div>
+  <div style="font-family:var(--mono);font-size:10px;color:var(--text-dim);margin-bottom:12px;letter-spacing:.5px;">
+    ※ Ryzen 7 5700X / RX 7600 の参考動画リンク（YouTube検索結果）
+  </div>
+  <div class="video-grid" id="video-grid"></div>
+</div>
+
+<!-- NEWS -->
+<div class="card">
+  <div class="card-title">📰 PC関連ニュース</div>
+  <div class="news-list" id="news-list"></div>
+</div>
+
+<div class="footer">
+  BANDAL GAMING ORDER TRACKER &nbsp;·&nbsp; 毎秒リアルタイム更新<br>
+  発送日・到着日は BANDALカスタマーサポート回答（2026/05/03時点）に基づく目安です<br>
+  正確な発送日はメールの発送連絡にてご確認ください &nbsp;·&nbsp;
+  <span id="footer-now">—</span>
+</div>
+
+</div><!-- /main -->
+
 <script>
-  // ─── CONSTANTS ───
-  const ORDER   = new Date(2026, 3, 24, 22, 57, 27);   // 2026/04/24 22:57:27
-  const MIN_ARR = new Date(2026, 4,  5,  0,  0,  0);   // 2026/05/05 00:00:00
-  const AVG_ARR = new Date(2026, 4,  8, 12,  0,  0);   // 2026/05/08 12:00:00
-  const MAX_ARR = new Date(2026, 4, 12, 23, 59, 59);   // 2026/05/12 23:59:59
-  const TOTAL_MS = AVG_ARR - ORDER;
-  const ONE_PCT_MS = TOTAL_MS / 100;
-  const DOW = ['日','月','火','水','木','金','土'];
+// ─── CONSTANTS ───
+const ORDER    = new Date('2026-04-24T22:57:27+09:00');
+const SHIP     = new Date('2026-05-20T12:00:00+09:00');
+const MIN_ARR  = new Date('2026-05-23T00:00:00+09:00');
+const AVG_ARR  = new Date('2026-05-25T12:00:00+09:00');
+const MAX_ARR  = new Date('2026-05-27T23:59:59+09:00');
 
-  let currentTarget = 'min';
+const TARGETS = [
+  { label:'発送予定',  date: SHIP },
+  { label:'最短到着',  date: MIN_ARR },
+  { label:'目安到着',  date: AVG_ARR },
+  { label:'最遅到着',  date: MAX_ARR },
+];
 
-  function pad(n) { return String(Math.max(0, Math.floor(n))).padStart(2,'0'); }
+const TOTAL_MS = SHIP - ORDER;
+const ONE_PCT_MS = TOTAL_MS / 100;
 
-  function fmtNum(n) { return Number(n).toLocaleString('ja-JP'); }
+let activeTarget = 0;
 
-  function msToHMS(ms) {
-    if (ms <= 0) return '00時間00分00秒';
-    const h = Math.floor(ms / 3600000);
-    const m = Math.floor((ms % 3600000) / 60000);
-    const s = Math.floor((ms % 60000) / 1000);
-    return `${pad(h)}時間${pad(m)}分${pad(s)}秒`;
-  }
+function setTarget(idx, el) {
+  activeTarget = idx;
+  document.querySelectorAll('.countdown-tab').forEach((t,i) => t.classList.toggle('active', i===idx));
+}
 
-  function msToDHMS(ms) {
-    if (ms <= 0) return '0日 00時間00分00秒';
-    const d = Math.floor(ms / 86400000);
-    const rem = ms % 86400000;
-    return `${d}日 ${msToHMS(rem)}`;
-  }
+function pad(n) { return String(Math.floor(Math.abs(n))).padStart(2,'0'); }
+function fmtNum(n) { return Number(n).toLocaleString('ja-JP'); }
 
-  // ─── COUNTDOWN TAB SWITCH ───
-  function setTarget(t) {
-    currentTarget = t;
-    document.querySelectorAll('.cd-tab').forEach(el => el.classList.remove('active'));
-    document.getElementById('tab-' + t).classList.add('active');
-    const labels = {
-      min: '2026年5月5日（最短）まで',
-      avg: '2026年5月8日（目安）まで',
-      max: '2026年5月12日（最遅）まで'
-    };
-    document.getElementById('cd-target-label').textContent = labels[t];
-    const colors = { min: 'var(--accent2)', avg: 'var(--accent)', max: 'var(--accent4)' };
-    document.querySelectorAll('.cd-num').forEach(el => {
-      el.style.color = colors[t];
-      el.style.textShadow = `0 0 20px ${colors[t]}80`;
-    });
-  }
+function msToHMS(ms) {
+  if (ms <= 0) return '00時間00分00秒';
+  const h = Math.floor(ms/3600000), m = Math.floor((ms%3600000)/60000), s = Math.floor((ms%60000)/1000);
+  return `${pad(h)}時間${pad(m)}分${pad(s)}秒`;
+}
+function msToDHMS(ms) {
+  if (ms <= 0) return '0日 00時間00分00秒';
+  return `${Math.floor(ms/86400000)}日 ${msToHMS(ms%86400000)}`;
+}
 
-  // ─── CALENDAR ───
-  function buildCalendar(gridId, year, month) {
-    const grid = document.getElementById(gridId);
-    DOW.forEach(d => {
-      const el = document.createElement('div');
-      el.className = 'cal-dow';
-      el.textContent = d;
-      grid.appendChild(el);
-    });
-    const firstDay = new Date(year, month, 1).getDay();
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
-    for (let i = 0; i < firstDay; i++) {
-      const el = document.createElement('div');
-      el.className = 'cal-day empty';
-      grid.appendChild(el);
-    }
-    const today = new Date();
-    for (let d = 1; d <= daysInMonth; d++) {
-      const date = new Date(year, month, d);
-      const dow = date.getDay();
-      const el = document.createElement('div');
-      el.textContent = d;
-      const isToday   = date.toDateString() === today.toDateString();
-      const isOrder   = year === 2026 && month === 3 && d === 24;
-      const isBest    = year === 2026 && month === 4 && d === 8;
-      const isRange   = year === 2026 && month === 4 && d >= 5 && d <= 12 && !isBest;
-      if      (isOrder) el.className = 'cal-day order-day';
-      else if (isToday) el.className = 'cal-day today-day';
-      else if (isBest)  el.className = 'cal-day arrival-best';
-      else if (isRange) el.className = 'cal-day arrival-range';
-      else if (dow===0) el.className = 'cal-day sun';
-      else if (dow===6) el.className = 'cal-day sat';
-      else              el.className = 'cal-day muted';
-      grid.appendChild(el);
-    }
-  }
-  buildCalendar('apr-grid', 2026, 3);
-  buildCalendar('may-grid', 2026, 4);
-
-  // ─── FPS DATA ───
-  const FPS_GAMES = [
-    { icon:'🎯', name:'CS2 (Counter-Strike 2)',    low:300, mid:230, high:170, comfort:'🟢 最高' },
-    { icon:'🔫', name:'Valorant',                  low:420, mid:310, high:200, comfort:'🟢 最高' },
-    { icon:'🦅', name:'Apex Legends',              low:190, mid:140, high: 95, comfort:'🟢 快適' },
-    { icon:'🌀', name:'Fortnite',                  low:210, mid:155, high: 95, comfort:'🟢 快適' },
-    { icon:'🌍', name:'GTA V',                     low:180, mid:135, high: 90, comfort:'🟢 快適' },
-    { icon:'⚔️', name:'Call of Duty: Warzone',    low:155, mid:115, high: 75, comfort:'🟡 普通' },
-    { icon:'☁️', name:'Overwatch 2',              low:290, mid:210, high:140, comfort:'🟢 最高' },
-    { icon:'🧱', name:'Minecraft (シェーダーあり)',  low:190, mid:130, high: 65, comfort:'🟢 快適' },
-    { icon:'🌙', name:'Elden Ring',                low: 85, mid: 70, high: 58, comfort:'🟡 普通' },
-    { icon:'🤖', name:'Cyberpunk 2077',            low: 95, mid: 70, high: 48, comfort:'🟠 重め' },
-  ];
-
-  const maxFPS = Math.max(...FPS_GAMES.map(g => g.low));
-  const tbody = document.getElementById('fps-tbody');
-  FPS_GAMES.forEach(g => {
-    const avg = Math.round((g.low + g.mid + g.high) / 3);
-    const barW = Math.round(avg / maxFPS * 100);
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td><div class="game-name"><span class="game-icon">${g.icon}</span>${g.name}</div></td>
-      <td><span class="fps-val fps-low">${g.low}</span></td>
-      <td><span class="fps-val fps-mid">${g.mid}</span></td>
-      <td><span class="fps-val fps-high">${g.high}</span></td>
-      <td><span class="fps-val fps-avg-col">${avg}</span><div class="fps-bar-wrap"><div class="fps-bar-fill" style="width:${barW}%"></div></div></td>
-      <td style="font-size:11px;white-space:nowrap;">${g.comfort}</td>
-    `;
-    tbody.appendChild(tr);
+// ─── CALENDAR ───
+function buildCal(year, month, containerId) {
+  const today = new Date();
+  const c = document.getElementById(containerId);
+  ['日','月','火','水','木','金','土'].forEach(d => {
+    const el = document.createElement('div');
+    el.className='cal-dow'; el.textContent=d; c.appendChild(el);
   });
-
-  const sumLow  = Math.round(FPS_GAMES.reduce((a,g) => a+g.low,  0) / FPS_GAMES.length);
-  const sumMid  = Math.round(FPS_GAMES.reduce((a,g) => a+g.mid,  0) / FPS_GAMES.length);
-  const sumHigh = Math.round(FPS_GAMES.reduce((a,g) => a+g.high, 0) / FPS_GAMES.length);
-  const sumAll  = Math.round((sumLow+sumMid+sumHigh)/3);
-  document.getElementById('fps-sum-low').textContent     = sumLow;
-  document.getElementById('fps-sum-mid').textContent     = sumMid;
-  document.getElementById('fps-sum-high').textContent    = sumHigh;
-  document.getElementById('fps-sum-overall').textContent = sumAll;
-  document.getElementById('fps-overall-avg').textContent = sumAll;
-
-  // ─── VIDEOS ───
-  const VIDEOS = [
-    { title:'RX 7600 + Ryzen 7 5700X FPS Benchmark 2025',     meta:'ベンチマーク総合', tag:'FPS TEST', url:'https://www.youtube.com/results?search_query=RX+7600+Ryzen+7+5700X+benchmark+fps' },
-    { title:'RX 7600 Cyberpunk 2077 / CS2 ゲームプレイ',      meta:'人気ゲームテスト', tag:'GAMEPLAY',  url:'https://www.youtube.com/results?search_query=RX+7600+gameplay+cyberpunk+cs2' },
-    { title:'Ryzen 7 5700X ゲーミングレビュー 2025',           meta:'CPU性能確認',      tag:'REVIEW',    url:'https://www.youtube.com/results?search_query=Ryzen+7+5700X+gaming+review+2025' },
-    { title:'RX 7600 vs RTX 3060 ゲーミング比較',              meta:'競合GPU比較',      tag:'COMPARE',   url:'https://www.youtube.com/results?search_query=RX+7600+vs+RTX+3060+gaming+benchmark' },
-    { title:'AMD RX 7600 ゲーミングPC 組み立て・レビュー',     meta:'PCビルド動画',     tag:'BUILD',     url:'https://www.youtube.com/results?search_query=AMD+RX+7600+gaming+PC+build+review' },
-    { title:'Valorant / Apex 240fps 達成 RX 7600 設定',        meta:'競技FPS設定解説',  tag:'ESPORTS',   url:'https://www.youtube.com/results?search_query=RX+7600+Valorant+Apex+high+fps+settings' },
-  ];
-
-  const vg = document.getElementById('video-grid');
-  VIDEOS.forEach(v => {
-    const a = document.createElement('a');
-    a.className = 'video-link';
-    a.href = v.url;
-    a.target = '_blank';
-    a.rel = 'noopener';
-    a.innerHTML = `
-      <div class="video-thumb">▶️</div>
-      <div class="video-info">
-        <div class="video-title">${v.title}</div>
-        <div class="video-meta"><span class="video-tag">${v.tag}</span>${v.meta}</div>
-      </div>
-    `;
-    vg.appendChild(a);
-  });
-
-  // ─── NEWS ───
-  const NEWS = [
-    { cat:'gpu',    catLabel:'GPU',    title:'AMD RX 7600 XT が登場 — RX 7600の後継モデルが発表',          desc:'AMDは2025年にRX 7600 XTを発表。RX 7600は同ファミリーの中核モデルとして依然コスパ最強の評価を維持。',        date:'2025年末' },
-    { cat:'driver', catLabel:'DRIVER', title:'AMD Adrenalin 2025 ドライバー更新 — Ryzen+Radeon最適化強化', desc:'最新ドライバーでFluid Motion Framesの安定性向上。CS2やApexのフレームレートが数%改善。',                    date:'2025年12月' },
-    { cat:'game',   catLabel:'GAME',   title:'GTA VI 2026年内発売予定 — 推奨GPUにRX 7600ランクイン',       desc:'Rockstar Gamesが推奨スペックを公開。RX 7600は1080p中設定で60fps以上の目標値を満たす推奨ランクに位置づけ。', date:'2026年4月' },
-    { cat:'cpu',    catLabel:'CPU',    title:'Ryzen 7 5700X は2026年もゲーミングCPUの定番',                desc:'AM4最終世代のRyzen 5000シリーズは依然コスパ王者。DDR4との組み合わせで安定した高性能を発揮し続けている。',    date:'2026年4月' },
-    { cat:'gpu',    catLabel:'GPU',    title:'Fortnite最新アップデート — RX 7600でパフォーマンスモード240fps達成報告', desc:'DX12最適化強化でRX 7600ユーザーから低設定での240fps超えの報告が相次いでいる。',                        date:'2026年3月' },
-    { cat:'game',   catLabel:'GAME',   title:'Elden Ring DLC第2弾の噂 — 最適化でミドルレンジGPUでも快適動作', desc:'フロム・ソフトウェアが追加コンテンツの最適化を改善。RX 7600でも安定した60fps動作が実現できると報告。',     date:'2026年4月' },
-  ];
-
-  const nl = document.getElementById('news-list');
-  NEWS.forEach(n => {
-    const div = document.createElement('div');
-    div.className = 'news-item';
-    div.innerHTML = `
-      <div class="news-badge-wrap"><span class="news-cat ${n.cat}">${n.catLabel}</span></div>
-      <div class="news-content">
-        <div class="news-title">${n.title}</div>
-        <div class="news-desc">${n.desc}</div>
-        <div class="news-date">📅 ${n.date}</div>
-      </div>
-    `;
-    nl.appendChild(div);
-  });
-
-  // ─── 1% BREAKDOWN ───
-  function build1PctGrid() {
-    const grid = document.getElementById('one-pct-grid');
-    grid.innerHTML = '';
-    const now = new Date();
-    const currentPct = Math.floor(Math.min(100, Math.max(0, (now - ORDER) / TOTAL_MS * 100)));
-    const highlights = [1,5,10,15,20,25,30,40,50,60,70,75,80,85,90,95,100];
-    highlights.forEach(pct => {
-      const targetTime = new Date(ORDER.getTime() + ONE_PCT_MS * pct);
-      const isFuture = targetTime > now;
-      const isPast   = targetTime <= now;
-      const isCurrent = pct === currentPct || (pct === currentPct + 1 && isFuture);
-      const diff     = targetTime - now;
-      const dtStr = targetTime.toLocaleDateString('ja-JP', {month:'short', day:'numeric'})
-                  + ' ' + targetTime.toLocaleTimeString('ja-JP', {hour:'2-digit', minute:'2-digit'});
-      const el = document.createElement('div');
-      el.className = 'one-pct-item' + (isCurrent ? ' current-pct' : '');
-      let valClass = isFuture ? 'future' : (pct < currentPct ? 'past' : 'now');
-      el.innerHTML = `
-        <span class="key">${pct}% 到達</span>
-        <span class="val ${valClass}">
-          ${isPast ? '✓ ' : ''}${dtStr}${isFuture ? '<br><small style="color:var(--muted);font-size:9px;">あと ' + msToDHMS(diff) + '</small>' : ''}
-        </span>
-      `;
-      grid.appendChild(el);
-    });
+  const firstDay = new Date(year, month-1, 1).getDay();
+  const daysInMonth = new Date(year, month, 0).getDate();
+  for(let i=0;i<firstDay;i++){const el=document.createElement('div');el.className='cal-day';c.appendChild(el);}
+  for(let d=1;d<=daysInMonth;d++){
+    const el=document.createElement('div');
+    const isOrder = (year===2026 && month===4 && d===24);
+    const isToday = (year===today.getFullYear() && month===today.getMonth()+1 && d===today.getDate());
+    const isShip  = (year===2026 && month===5 && d===20);
+    const isBest  = (year===2026 && month===5 && d===25);
+    const isRange = (year===2026 && month===5 && d>=23 && d<=27 && !isBest);
+    let cls='cal-day';
+    if(isOrder) cls+=' order-d';
+    else if(isToday) cls+=' today-d';
+    else if(isShip) cls+=' ship-d';
+    else if(isBest) cls+=' arrive-best';
+    else if(isRange) cls+=' arrive-range';
+    el.className=cls; el.textContent=d; c.appendChild(el);
   }
+}
+buildCal(2026,4,'cal-apr');
+buildCal(2026,5,'cal-may');
+
+// ─── BENCHMARK ───
+const GAMES = [
+  {icon:'🎯', name:'CS2',                 low:300, med:230, high:170, comfort:'🟢 最高'},
+  {icon:'🔫', name:'Valorant',            low:420, med:310, high:200, comfort:'🟢 最高'},
+  {icon:'🦅', name:'Apex Legends',        low:165, med:130, high: 95, comfort:'🟢 快適'},
+  {icon:'🌀', name:'Fortnite',            low:145, med:115, high: 82, comfort:'🟢 快適'},
+  {icon:'🌍', name:'GTA V',               low:160, med:130, high:105, comfort:'🟢 快適'},
+  {icon:'⚔️', name:'Call of Duty: MW3', low:130, med:100, high: 74, comfort:'🟡 普通'},
+  {icon:'☁️', name:'Overwatch 2',        low:200, med:165, high:130, comfort:'🟢 最高'},
+  {icon:'🧱', name:'Minecraft (Shaders)', low:110, med: 82, high: 58, comfort:'🟢 快適'},
+  {icon:'🌙', name:'Elden Ring',          low:120, med: 95, high: 68, comfort:'🟡 普通'},
+  {icon:'🤖', name:'Cyberpunk 2077',      low: 95, med: 72, high: 52, comfort:'🟠 重め'},
+];
+const maxFPS = Math.max(...GAMES.map(g=>g.low));
+const tbody = document.getElementById('bench-body');
+let sumL=0,sumM=0,sumH=0;
+GAMES.forEach(g=>{
+  sumL+=g.low; sumM+=g.med; sumH+=g.high;
+  const avg=Math.round((g.low+g.med+g.high)/3);
+  const barW=g.low/maxFPS*36;
+  const tr=document.createElement('tr');
+  tr.innerHTML=`
+    <td>${g.icon} ${g.name}</td>
+    <td class="fps-val fps-lo">${g.low}<span class="fps-bar" style="width:${g.low/maxFPS*36}px;background:var(--warn)"></span></td>
+    <td class="fps-val fps-mi">${g.med}<span class="fps-bar" style="width:${g.med/maxFPS*36}px"></span></td>
+    <td class="fps-val fps-hi">${g.high}<span class="fps-bar" style="width:${g.high/maxFPS*36}px;background:var(--accent3)"></span></td>
+    <td class="fps-val fps-avg">${avg}</td>
+    <td style="font-size:10px;white-space:nowrap">${g.comfort}</td>
+  `;
+  tbody.appendChild(tr);
+});
+const avgL=Math.round(sumL/GAMES.length), avgM=Math.round(sumM/GAMES.length), avgH=Math.round(sumH/GAMES.length);
+const avgAll=Math.round((avgL+avgM+avgH)/3);
+const avgRow=document.createElement('tr');
+avgRow.className='avg-row';
+avgRow.innerHTML=`
+  <td style="color:var(--accent);font-family:var(--mono);font-size:10px">AVERAGE</td>
+  <td class="fps-val fps-lo">${avgL}</td>
+  <td class="fps-val fps-mi">${avgM}</td>
+  <td class="fps-val fps-hi">${avgH}</td>
+  <td class="fps-val fps-avg">${avgAll}</td><td></td>
+`;
+tbody.appendChild(avgRow);
+document.getElementById('fps-sum-low').textContent=avgL;
+document.getElementById('fps-sum-mid').textContent=avgM;
+document.getElementById('fps-sum-high').textContent=avgH;
+document.getElementById('fps-sum-overall').textContent=avgAll;
+document.getElementById('fps-overall-avg').textContent=avgAll;
+
+// ─── VIDEOS ───
+const VIDEOS = [
+  {title:'RX 7600 + Ryzen 7 5700X FPS Benchmark',  meta:'ベンチマーク総合', tag:'FPS TEST', url:'https://www.youtube.com/results?search_query=RX+7600+Ryzen+7+5700X+benchmark+fps'},
+  {title:'RX 7600 Cyberpunk 2077 / CS2 プレイ',     meta:'人気ゲームテスト', tag:'GAMEPLAY',  url:'https://www.youtube.com/results?search_query=RX+7600+gameplay+cyberpunk+cs2'},
+  {title:'Ryzen 7 5700X ゲーミングレビュー 2025',    meta:'CPU性能確認',      tag:'REVIEW',    url:'https://www.youtube.com/results?search_query=Ryzen+7+5700X+gaming+review+2025'},
+  {title:'RX 7600 vs RTX 3060 ゲーミング比較',       meta:'競合GPU比較',      tag:'COMPARE',   url:'https://www.youtube.com/results?search_query=RX+7600+vs+RTX+3060+gaming+benchmark'},
+  {title:'Valorant / Apex 240fps 達成 RX 7600',      meta:'競技FPS設定解説',  tag:'ESPORTS',   url:'https://www.youtube.com/results?search_query=RX+7600+Valorant+Apex+high+fps'},
+  {title:'AMD RX 7600 ゲーミングPC 組み立てレビュー', meta:'PCビルド動画',     tag:'BUILD',     url:'https://www.youtube.com/results?search_query=AMD+RX+7600+gaming+PC+build+review'},
+];
+const vg=document.getElementById('video-grid');
+VIDEOS.forEach(v=>{
+  const a=document.createElement('a');
+  a.className='video-link'; a.href=v.url; a.target='_blank'; a.rel='noopener';
+  a.innerHTML=`<div class="video-thumb">▶️</div><div class="video-info"><div class="video-title">${v.title}</div><div class="video-meta"><span class="video-tag">${v.tag}</span>${v.meta}</div></div>`;
+  vg.appendChild(a);
+});
+
+// ─── NEWS ───
+const NEWS = [
+  {cat:'gpu',    catLabel:'GPU',    title:'AMD RX 7600 XT 登場 — RX 7600後継モデル発表', desc:'AMDは2025年にRX 7600 XTを発表。RX 7600は同ファミリーの中核として依然コスパ最強。', date:'2025年末'},
+  {cat:'driver', catLabel:'DRIVER', title:'AMD Adrenalin 2025 更新 — Ryzen+Radeon最適化強化', desc:'最新ドライバーでFluid Motion Framesの安定性向上。CS2やApexのフレームレートが数%改善。', date:'2025年12月'},
+  {cat:'game',   catLabel:'GAME',   title:'GTA VI 2026年内発売予定 — 推奨GPUにRX 7600', desc:'RX 7600は1080p中設定で60fps以上の目標値を満たす推奨ランクに位置づけ。', date:'2026年4月'},
+  {cat:'cpu',    catLabel:'CPU',    title:'Ryzen 7 5700X は2026年もゲーミングCPUの定番', desc:'AM4最終世代のRyzen 5000シリーズは依然コスパ王者。DDR4との組み合わせで安定した高性能を発揮。', date:'2026年4月'},
+  {cat:'gpu',    catLabel:'GPU',    title:'Fortnite更新 — RX 7600でパフォーマンスモード240fps達成報告', desc:'DX12最適化強化でRX 7600ユーザーから低設定での240fps超えの報告が相次いでいる。', date:'2026年3月'},
+  {cat:'game',   catLabel:'GAME',   title:'Elden Ring追加コンテンツ — ミドルGPUでも快適動作', desc:'最適化改善でRX 7600でも安定した60fps動作が実現できると報告。', date:'2026年4月'},
+];
+const nl=document.getElementById('news-list');
+NEWS.forEach(n=>{
+  const div=document.createElement('div');
+  div.className='news-item';
+  div.innerHTML=`<div style="flex-shrink:0;padding-top:2px"><span class="news-cat ${n.cat}">${n.catLabel}</span></div><div class="news-content"><div class="news-title">${n.title}</div><div class="news-desc">${n.desc}</div><div class="news-date">📅 ${n.date}</div></div>`;
+  nl.appendChild(div);
+});
+
+// ─── 1% GRID ───
+function build1PctGrid() {
+  const grid=document.getElementById('one-pct-grid');
+  grid.innerHTML='';
+  const now=new Date();
+  const currentPct=Math.floor(Math.min(100,Math.max(0,(now-ORDER)/TOTAL_MS*100)));
+  [1,5,10,15,20,25,30,40,50,60,70,75,80,90,95,100].forEach(pct=>{
+    const t=new Date(ORDER.getTime()+ONE_PCT_MS*pct);
+    const isFuture=t>now, isPast=t<=now;
+    const isCurrent=(pct===currentPct+1 && isFuture);
+    const diff=t-now;
+    const dtStr=t.toLocaleDateString('ja-JP',{month:'short',day:'numeric'})+' '+t.toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit'});
+    const el=document.createElement('div');
+    el.className='one-pct-item'+(isCurrent?' current-pct':'');
+    const valCls=isFuture?'future':(pct<currentPct?'past':'now');
+    el.innerHTML=`<span class="key">${pct}% 到達</span><span class="val ${valCls}">${isPast?'✓ ':''}${dtStr}${isFuture?`<br><small style="color:var(--text-dim);font-size:9px">あと ${msToDHMS(diff)}</small>`:''}</span>`;
+    grid.appendChild(el);
+  });
+}
+build1PctGrid();
+
+// ─── TICK ───
+function tick() {
+  const now = new Date();
+
+  // clock
+  document.getElementById('live-clock').textContent = now.toLocaleDateString('ja-JP',{year:'numeric',month:'long',day:'numeric',weekday:'short'})+' '+now.toLocaleTimeString('ja-JP');
+  document.getElementById('footer-now').textContent = now.toLocaleTimeString('ja-JP');
+
+  // elapsed
+  const eMs = Math.max(0, now - ORDER);
+  const eS  = Math.floor(eMs/1000);
+  const eD  = Math.floor(eS/86400);
+  const eH  = Math.floor((eS%86400)/3600);
+  const eM  = Math.floor((eS%3600)/60);
+  const eSS = eS%60;
+  document.getElementById('el-d').textContent=pad(eD);
+  document.getElementById('el-h').textContent=pad(eH);
+  document.getElementById('el-m').textContent=pad(eM);
+  document.getElementById('el-s').textContent=pad(eSS);
+  document.getElementById('el-total-h').textContent=fmtNum(Math.floor(eMs/3600000))+'h';
+  document.getElementById('el-total-m').textContent=fmtNum(Math.floor(eMs/60000))+'m';
+  document.getElementById('el-total-s').textContent=fmtNum(eS)+'s';
+
+  // countdown
+  const tgt=TARGETS[activeTarget].date;
+  const diff=Math.max(0,tgt-now);
+  const dT=Math.floor(diff/1000);
+  document.getElementById('cd-d').textContent=pad(Math.floor(dT/86400));
+  document.getElementById('cd-h').textContent=pad(Math.floor((dT%86400)/3600));
+  document.getElementById('cd-m').textContent=pad(Math.floor((dT%3600)/60));
+  document.getElementById('cd-s').textContent=pad(dT%60);
+  const td=TARGETS[activeTarget].date;
+  document.getElementById('cd-target-label').innerHTML=`<strong>${td.getFullYear()}年${td.getMonth()+1}月${td.getDate()}日</strong> ${TARGETS[activeTarget].label}まで（BANDALサポート回答より）`;
+
+  const diffMin=Math.max(0,MIN_ARR-now);
+  const diffAvg=Math.max(0,AVG_ARR-now);
+  const diffMax=Math.max(0,MAX_ARR-now);
+  document.getElementById('cd-detail-min').textContent=diffMin>0?msToDHMS(diffMin):'✓ 到着済み';
+  document.getElementById('cd-detail-avg').textContent=diffAvg>0?msToDHMS(diffAvg):'✓ 到着済み';
+  document.getElementById('cd-detail-max').textContent=diffMax>0?msToDHMS(diffMax):'✓ 到着済み';
+
+  // progress
+  const pct=Math.min(100,Math.max(0,eMs/TOTAL_MS*100));
+  const pctFloor=Math.floor(pct);
+  document.getElementById('prog-pct').textContent=pct.toFixed(1)+'%';
+  document.getElementById('prog-bar').style.width=pct+'%';
+  document.getElementById('prog-remain').textContent='残り '+(100-pct).toFixed(1)+'%';
+  document.getElementById('prog-rem-pct').textContent=(100-pctFloor)+'%残';
+
+  const nextPctTime=new Date(ORDER.getTime()+ONE_PCT_MS*(pctFloor+1));
+  document.getElementById('prog-next1pct').textContent=msToHMS(Math.max(0,nextPctTime-now));
+  const opH=Math.floor(ONE_PCT_MS/3600000), opM=Math.floor((ONE_PCT_MS%3600000)/60000);
+  document.getElementById('prog-1pct-dur').textContent=`約${opH}時間${opM}分`;
+
+  document.getElementById('days-elapsed').textContent=Math.floor(eMs/86400000)+'日';
+  document.getElementById('days-to-ship').textContent=Math.max(0,Math.ceil((SHIP-now)/86400000))+'日';
+  document.getElementById('days-to-arrive').textContent=Math.max(0,Math.ceil((AVG_ARR-now)/86400000))+'日';
+
+  // stats
+  const eDay=Math.floor(eMs/86400000);
+  document.getElementById('stat-elapsed').innerHTML=`${eDay}<span class="stat-main-unit">日</span>`;
+  document.getElementById('stat-elapsed-sub').textContent=msToHMS(eMs%86400000)+' 経過';
+
+  const minD=Math.max(0,Math.ceil(diffMin/86400000));
+  document.getElementById('stat-min').innerHTML=`${minD}<span class="stat-main-unit">日</span>`;
+  document.getElementById('stat-min-sub').textContent=diffMin>0?msToHMS(diffMin%86400000)+' 後':'到着済み';
+
+  const avgD=Math.max(0,Math.ceil(diffAvg/86400000));
+  document.getElementById('stat-avg').innerHTML=`${avgD}<span class="stat-main-unit">日</span>`;
+  document.getElementById('stat-avg-sub').textContent=diffAvg>0?msToHMS(diffAvg%86400000)+' 後':'到着済み';
+
+  // 1% grid every tick
   build1PctGrid();
+}
 
-  // ─── TICK ───
-  function tick() {
-    const now = new Date();
-
-    // ─ Clock
-    const clockStr = now.toLocaleDateString('ja-JP', {
-        year:'numeric', month:'long', day:'numeric', weekday:'short'
-      }) + ' ' + now.toLocaleTimeString('ja-JP');
-    document.getElementById('live-clock-text').textContent = clockStr;
-    document.getElementById('footer-time').textContent = now.toLocaleTimeString('ja-JP');
-
-    // ─ Elapsed
-    const elapsedMs  = Math.max(0, now - ORDER);
-    const elapsedS   = Math.floor(elapsedMs / 1000);
-    const elapsedMin = Math.floor(elapsedMs / 60000);
-    const elapsedH   = Math.floor(elapsedMs / 3600000);
-    const elapsedD   = Math.floor(elapsedMs / 86400000);
-    const elapsedRem = elapsedMs % 86400000;
-
-    document.getElementById('elapsed-hero-num').textContent = `${elapsedD}日 ${msToHMS(elapsedRem)}`;
-    document.getElementById('elapsed-hero-sub').textContent = `注文から${elapsedD}日と${msToHMS(elapsedRem)}が経過しました`;
-    document.getElementById('elapsed-hours-total').textContent = fmtNum(elapsedH) + 'h';
-    document.getElementById('elapsed-mins-total').textContent  = fmtNum(elapsedMin) + 'm';
-    document.getElementById('elapsed-secs-total').textContent  = fmtNum(elapsedS) + 's';
-
-    // ─ Seconds ticker (to MIN_ARR)
-    const diffMinMs = Math.max(0, MIN_ARR - now);
-    document.getElementById('sk-days').textContent  = pad(Math.floor(diffMinMs / 86400000));
-    document.getElementById('sk-hours').textContent = pad(Math.floor((diffMinMs % 86400000) / 3600000));
-    document.getElementById('sk-mins').textContent  = pad(Math.floor((diffMinMs % 3600000) / 60000));
-    document.getElementById('sk-secs').textContent  = pad(Math.floor((diffMinMs % 60000) / 1000));
-
-    // ─ Arrived check
-    if (now > MAX_ARR) {
-      document.getElementById('arrived-banner').style.display = 'block';
-    }
-
-    // ─ Countdown tabs
-    const targets = { min: MIN_ARR, avg: AVG_ARR, max: MAX_ARR };
-    const diffCur = Math.max(0, targets[currentTarget] - now);
-    document.getElementById('cd-days').textContent  = pad(Math.floor(diffCur / 86400000));
-    document.getElementById('cd-hours').textContent = pad(Math.floor((diffCur % 86400000) / 3600000));
-    document.getElementById('cd-mins').textContent  = pad(Math.floor((diffCur % 3600000) / 60000));
-    document.getElementById('cd-secs').textContent  = pad(Math.floor((diffCur % 60000) / 1000));
-
-    // cd-note details
-    const diffAvgMs = Math.max(0, AVG_ARR - now);
-    const diffMaxMs = Math.max(0, MAX_ARR - now);
-    document.getElementById('cd-detail-min').textContent = diffMinMs > 0 ? msToDHMS(diffMinMs) : '✓ 到着済み';
-    document.getElementById('cd-detail-avg').textContent = diffAvgMs > 0 ? msToDHMS(diffAvgMs) : '✓ 到着済み';
-    document.getElementById('cd-detail-max').textContent = diffMaxMs > 0 ? msToDHMS(diffMaxMs) : '✓ 到着済み';
-
-    // ─ Stats cards
-    document.getElementById('stat-elapsed-days').innerHTML = `${elapsedD}<span class="stat-main-unit">日</span>`;
-    document.getElementById('stat-elapsed-sub').textContent = msToHMS(elapsedRem) + ' 経過';
-
-    const minD   = Math.max(0, Math.ceil(diffMinMs / 86400000));
-    const minRem = diffMinMs % 86400000;
-    document.getElementById('stat-min-days').innerHTML = `${minD}<span class="stat-main-unit">日</span>`;
-    document.getElementById('stat-min-sub').textContent = diffMinMs > 0 ? msToHMS(minRem) + ' 後' : '到着済み';
-
-    const avgD   = Math.max(0, Math.ceil(diffAvgMs / 86400000));
-    const avgRem = diffAvgMs % 86400000;
-    document.getElementById('stat-avg-days').innerHTML = `${avgD}<span class="stat-main-unit">日</span>`;
-    document.getElementById('stat-avg-sub').textContent = diffAvgMs > 0 ? msToHMS(avgRem) + ' 後' : '到着済み';
-
-    // ─ Progress bar
-    const pct = Math.min(100, Math.max(0, (elapsedMs / TOTAL_MS) * 100));
-    const pctFloor = Math.floor(pct);
-    document.getElementById('prog-pct-text').textContent = pct.toFixed(4) + '%';
-    document.getElementById('prog-fill').style.width = pct + '%';
-    document.getElementById('prog-remaining-pct').textContent = (100 - pctFloor) + '%残';
-
-    // Next 1%
-    const nextPctTime = new Date(ORDER.getTime() + ONE_PCT_MS * (pctFloor + 1));
-    const nextPctDiff = Math.max(0, nextPctTime - now);
-    document.getElementById('prog-next1pct').textContent = msToHMS(nextPctDiff);
-
-    // 1% duration label
-    const onePctH = Math.floor(ONE_PCT_MS / 3600000);
-    const onePctM = Math.floor((ONE_PCT_MS % 3600000) / 60000);
-    document.getElementById('prog-1pct-duration').textContent = `約${onePctH}時間${onePctM}分`;
-
-    // ─ 1% grid refresh (every 60s is enough but we do it every tick to keep 'あと' accurate)
-    build1PctGrid();
-  }
-
-  tick();
-  setInterval(tick, 1000);
+tick();
+setInterval(tick,1000);
 </script>
 </body>
 </html>
